@@ -1,0 +1,7 @@
+C:\Users\Zachary\Desktop\Atom\alyx-multiplayer\bin\x64\Debug\alyx-multiplayer.exe.config
+C:\Users\Zachary\Desktop\Atom\alyx-multiplayer\bin\x64\Debug\alyx-multiplayer.exe
+C:\Users\Zachary\Desktop\Atom\alyx-multiplayer\bin\x64\Debug\alyx-multiplayer.pdb
+C:\Users\Zachary\Desktop\Atom\alyx-multiplayer\obj\x64\Debug\alyx-multiplayer.csprojAssemblyReference.cache
+C:\Users\Zachary\Desktop\Atom\alyx-multiplayer\obj\x64\Debug\alyx-multiplayer.csproj.CoreCompileInputs.cache
+C:\Users\Zachary\Desktop\Atom\alyx-multiplayer\obj\x64\Debug\alyx-multiplayer.exe
+C:\Users\Zachary\Desktop\Atom\alyx-multiplayer\obj\x64\Debug\alyx-multiplayer.pdb
