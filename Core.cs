@@ -53,11 +53,11 @@ namespace alyx_multiplayer
         }
 
         /// <summary>
-        /// Find a base address pointer for signature scanning .
+        /// Get a static pointer from the local pointer of an instruction.
         /// </summary>
-        /// <param name="ptr">The initial pointer to use.</param>
-        /// <param name="trgOperandOffset">An offset from the initial pointer. Used when first reading bytes from this pointer.</param>
-        /// <param name="totalSize">The expected total size of the base address pointer.</param>
+        /// <param name="ptr">Location of the instruction.</param>
+        /// <param name="trgOperandOffset">Where the pointer sits inside this instruction.</param>
+        /// <param name="totalSize">Size of the instruction.</param>
         /// <returns></returns>
         private static IntPtr GetPointer(IntPtr ptr, int trgOperandOffset, int totalSize)
         {
@@ -73,7 +73,7 @@ namespace alyx_multiplayer
         }
 
         /// <summary>
-        /// Initialize signature scanners for the server and engine.
+        /// Initialize signature scanners and sigscan.
         /// </summary>
         private static void Init()
         {
@@ -136,7 +136,7 @@ namespace alyx_multiplayer
         /// Get the name of an entity using a pointer.
         /// </summary>
         /// <param name="ptr">The pointer.</param>
-        /// <param name="isTargetName">Whether or not the DeepPointer declaration should use target name offsets.</param>
+        /// <param name="isTargetName">Whether the supplied name is the entity's name or its class name.</param>
         /// <returns></returns>
         private static string GetNameFromPtr(IntPtr ptr, bool isTargetName = false)
         {
@@ -150,7 +150,7 @@ namespace alyx_multiplayer
         /// Get the pointer of an entity using its name. Currently unused.
         /// </summary>
         /// <param name="name">The entity name.</param>
-        /// <param name="isTargetName">Whether or not the DeepPointer declaration should use target name offsets.</param>
+        /// <param name="isTargetName">Whether the supplied name is the entity's name or its class name.</param>
         /// <returns></returns>
         private static IntPtr GetPtrByName(string name, bool isTargetName = false)
         {
