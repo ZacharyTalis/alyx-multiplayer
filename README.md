@@ -10,3 +10,7 @@ A lotta folks made this possible, notably:
 - The TF2Maps, SourceRuns, and Speedrun Tool Development communities.
 
 This repo's license is a copy of the [LiveSplit license](https://github.com/LiveSplit/LiveSplit/blob/master/LICENSE), since we stole a bunch of their code :)
+
+## Common compiling issues
+
+- `Only part of a ReadProcessMemory or WriteProcessMemory request was completed`: make sure you're compiling to x64!

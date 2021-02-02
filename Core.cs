@@ -8,7 +8,7 @@ namespace alyx_multiplayer
 {
     class Core
     {
-        private static Process game = Process.GetProcessesByName("hlvr")[0];
+        private static Process game;
 
         private static IntPtr _entListPtr;
         private static IntPtr _gamePathPtr;
@@ -19,12 +19,28 @@ namespace alyx_multiplayer
 
         private const int ENT_INFO_SIZE = 120;
 
+        private const string scriptPath = @"C:\Users\Zachary\Desktop\";
+
         /// <summary>
         /// Main method. Run init, then update continuously.
         /// </summary>
         /// <param name="args">Command-line arguments.</param>
         public static void Main(string[] args)
         {
+
+            bool isGameRunning = false;
+            while (!isGameRunning)
+            {
+                try {
+                    game = Process.GetProcessesByName("hlvr")[0];
+                    isGameRunning = true;
+                }
+                catch (IndexOutOfRangeException) {
+                    Console.WriteLine("[MAIN] Game not running! Checking again in five seconds.");
+                    Thread.Sleep(5000);
+                }
+            } Console.Clear();
+
             Init();
 
             Console.SetCursorPosition(0, 10);
@@ -82,11 +98,10 @@ namespace alyx_multiplayer
 
             ProcessModuleWow64Safe server = modules.FirstOrDefault(x => x.ModuleName.ToLower() == "server.dll");
             ProcessModuleWow64Safe engine = modules.FirstOrDefault(x => x.ModuleName.ToLower() == "engine2.dll");
-            if (server == null || engine == null)
+            while (server == null || engine == null)
             {
-                Thread.Sleep(1000);
                 Console.WriteLine("[INIT] Modules aren't yet loaded! Waiting 1 second until next try");
-                throw new Exception();
+                Thread.Sleep(1000);
             }
             var serverScanner = new SignatureScanner(game, server.BaseAddress, server.ModuleMemorySize);
             var engineScanner = new SignatureScanner(game, engine.BaseAddress, engine.ModuleMemorySize);
@@ -189,8 +204,15 @@ namespace alyx_multiplayer
         private static void Update()
         {
             _watchers.UpdateAll(game);
-            Console.WriteLine("pos " + GetEntPosFromPtr(GetEntPtrFromIndex(1)) + "             ");
-            Console.WriteLine("ang " + GetEntAngleFromPtr(GetEntPtrFromIndex(1)) + "             ");
+
+            Vector3f pos = GetEntPosFromPtr(GetEntPtrFromIndex(1));
+            Vector3f ang = GetEntAngleFromPtr(GetEntPtrFromIndex(1));
+
+            // Eventually this'll be for the networked avatar, but for now we'll use the player's own specs.
+            LuaUtils.WriteCoordsToScript(scriptPath, pos, ang);
+
+            Console.WriteLine("pos " + pos + "             ");
+            Console.WriteLine("ang " + ang + "             ");
             Console.WriteLine("map " + _mapName.Current + "             ");
         }
         
