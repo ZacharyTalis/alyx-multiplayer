@@ -1,7 +1,5 @@
 ﻿using LiveSplit.ComponentUtil;
 using System;
-using System.Collections;
-using System.Collections.Generic;
 using System.Diagnostics;
 using System.Linq;
 using System.Threading;
@@ -12,6 +10,19 @@ namespace alyx_multiplayer
     {
         private static Process game = Process.GetProcessesByName("hlvr")[0];
 
+        private static IntPtr _entListPtr;
+        private static IntPtr _gamePathPtr;
+        private static IntPtr _mapNamePtr => _gamePathPtr + 0x100;
+        private static StringWatcher _mapName;
+
+        private static MemoryWatcherList _watchers = new MemoryWatcherList();
+
+        private const int ENT_INFO_SIZE = 120;
+
+        /// <summary>
+        /// Main method. Run init, then update continuously.
+        /// </summary>
+        /// <param name="args">Command-line arguments.</param>
         public static void Main(string[] args)
         {
             Init();
@@ -23,18 +34,15 @@ namespace alyx_multiplayer
                 Thread.Sleep(50);
                 Console.SetCursorPosition(0,10);
             }
-
         }
 
-        private static IntPtr _entListPtr;
-        private static IntPtr _gamePathPtr;
-        private static IntPtr _mapNamePtr => _gamePathPtr + 0x100;
-        private static StringWatcher _mapName;
-
-        private static MemoryWatcherList _watchers = new MemoryWatcherList();
-
-        private const int ENT_INFO_SIZE = 120;
-
+        /// <summary>
+        /// Find a base address pointer for signature scanning .
+        /// </summary>
+        /// <param name="ptr">The initial pointer to use.</param>
+        /// <param name="trgOperandOffset">An offset from the initial pointer. Used when first reading bytes from this pointer.</param>
+        /// <param name="totalSize">The expected total size of the base address pointer.</param>
+        /// <returns></returns>
         private static IntPtr GetPointer(IntPtr ptr, int trgOperandOffset, int totalSize)
         {
             byte[] bytes = game.ReadBytes(ptr + trgOperandOffset, 4);
@@ -48,6 +56,9 @@ namespace alyx_multiplayer
             return actualPtr;
         }
 
+        /// <summary>
+        /// Initialize signature scanners for the server and engine.
+        /// </summary>
         private static void Init()
         {
             Action<string, IntPtr> SigReport = (name, ptr) =>
@@ -89,10 +100,13 @@ namespace alyx_multiplayer
             _watchers.Add(_mapName);
         }
 
+        /// <summary>
+        /// Get the pointer of an entity using its index.
+        /// </summary>
         private static IntPtr GetEntPtrFromIndex(int index)
         {
-            // the game splits the entity pointer list into blocks with seemingly a certain size
-            // this function is taken from the game's decompiled code
+            // The game splits the entity pointer list into blocks with seemingly a certain size.
+            // This function is taken from the game's decompiled code!
 
             int block = 24 + (index >> 9) * 8;
             int pos = (index & 511) * ENT_INFO_SIZE;
@@ -103,6 +117,12 @@ namespace alyx_multiplayer
             return entPtr;
         }
 
+        /// <summary>
+        /// Get the name of an entity using a pointer.
+        /// </summary>
+        /// <param name="ptr">The pointer.</param>
+        /// <param name="isTargetName">Whether or not the DeepPointer declaration should use target name offsets.</param>
+        /// <returns></returns>
         private static string GetNameFromPtr(IntPtr ptr, bool isTargetName = false)
         {
             DeepPointer nameptr = new DeepPointer(ptr, 0x10, (isTargetName) ? 0x18 : 0x20, 0x0);
@@ -111,7 +131,13 @@ namespace alyx_multiplayer
             return name;
         }
 
-        private static IntPtr FindEntByName(string name, bool isTargetName = false)
+        /// <summary>
+        /// Get the pointer of an entity using its name. Currently unused.
+        /// </summary>
+        /// <param name="name">The entity name.</param>
+        /// <param name="isTargetName">Whether or not the DeepPointer declaration should use target name offsets.</param>
+        /// <returns></returns>
+        private static IntPtr GetPtrByName(string name, bool isTargetName = false)
         {
             var prof = Stopwatch.StartNew();
             // 2838: theorectically the index can go all the way up to 32768 but it never does even on the biggest of maps
@@ -135,23 +161,36 @@ namespace alyx_multiplayer
             return IntPtr.Zero;
         }
 
-        private static Vector3f GetEntPos(IntPtr ptr)
+        /// <summary>
+        /// Get the position of an entity using a pointer.
+        /// </summary>
+        /// <param name="ptr">The pointer.</param>
+        /// <returns></returns>
+        private static Vector3f GetEntPosFromPtr(IntPtr ptr)
         {
             new DeepPointer(ptr, 0x1a0, 0x108).DerefOffsets(game, out IntPtr posPtr);
             return game.ReadValue<Vector3f>(posPtr);
         }
 
-        private static Vector3f GetEntAngle(IntPtr ptr)
+        /// <summary>
+        /// Get the angles of an entity using a pointer.
+        /// </summary>
+        /// <param name="ptr">The pointer.</param>
+        /// <returns></returns>
+        private static Vector3f GetEntAngleFromPtr(IntPtr ptr)
         {
             new DeepPointer(ptr, 0x1a0, 0x114).DerefOffsets(game, out IntPtr angPtr);
             return game.ReadValue<Vector3f>(angPtr);
         }
 
+        /// <summary>
+        /// Update the console with current position, angles, and mapname.
+        /// </summary>
         private static void Update()
         {
             _watchers.UpdateAll(game);
-            Console.WriteLine("pos " + GetEntPos(GetEntPtrFromIndex(1)) + "             ");
-            Console.WriteLine("ang " + GetEntAngle(GetEntPtrFromIndex(1)) + "             ");
+            Console.WriteLine("pos " + GetEntPosFromPtr(GetEntPtrFromIndex(1)) + "             ");
+            Console.WriteLine("ang " + GetEntAngleFromPtr(GetEntPtrFromIndex(1)) + "             ");
             Console.WriteLine("map " + _mapName.Current + "             ");
         }
         
