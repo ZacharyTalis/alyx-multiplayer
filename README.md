@@ -1,5 +1,7 @@
 # alyx-multiplayer
 
+![alyx-multiplayer logo, a health heart icon of interspersed red and yellow circles.](assets/logo_small.png)
+
 ### A multiplayer mod for Alyx. More info coming to this readme soon!
 
 A lotta folks made this possible, notably:
@@ -13,4 +15,4 @@ This repo's license is a copy of the [LiveSplit license](https://github.com/Live
 
 ## Common compiling issues
 
-- `Only part of a ReadProcessMemory or WriteProcessMemory request was completed`: make sure you're compiling to x64!
+- `Only part of a ReadProcessMemory or WriteProcessMemory request was completed`: Make sure you're compiling to x64!
