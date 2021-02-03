@@ -18,8 +18,9 @@ namespace alyx_multiplayer
         private static MemoryWatcherList _watchers = new MemoryWatcherList();
 
         private const int ENT_INFO_SIZE = 120;
+        private const int TICK_MS = 20;
 
-        private const string scriptPath = @"C:\Users\Zachary\Desktop\";
+        private const string scriptPath = @"C:\Program Files (x86)\Steam\steamapps\common\Half-Life Alyx\game\hlvr_addons\lua_testbed\scripts\vscripts";
 
         /// <summary>
         /// Main method. Run init, then update continuously.
@@ -47,7 +48,7 @@ namespace alyx_multiplayer
             while (true)
             {
                 Update();
-                Thread.Sleep(50);
+                Thread.Sleep(TICK_MS);
                 Console.SetCursorPosition(0,10);
             }
         }
@@ -147,10 +148,10 @@ namespace alyx_multiplayer
         }
 
         /// <summary>
-        /// Get the pointer of an entity using its name. Currently unused.
+        /// Get the pointer of an entity using its name.
         /// </summary>
         /// <param name="name">The entity name.</param>
-        /// <param name="isTargetName">Whether the supplied name is the entity's name or its class name.</param>
+        /// <param name="isTargetName">If true, the name parameter is the entity's class name. Otherwise, it's the entity's actual name.</param>
         /// <returns></returns>
         private static IntPtr GetPtrByName(string name, bool isTargetName = false)
         {
@@ -205,10 +206,15 @@ namespace alyx_multiplayer
         {
             _watchers.UpdateAll(game);
 
-            Vector3f pos = GetEntPosFromPtr(GetEntPtrFromIndex(1));
-            Vector3f ang = GetEntAngleFromPtr(GetEntPtrFromIndex(1));
+            // Original code for local coords fetch
+            // IntPtr localPtr = GetEntPtrFromIndex(1);
 
-            // Eventually this'll be for the networked avatar, but for now we'll use the player's own specs.
+            // Now we're using an empty at the local's head!
+            IntPtr localPtr = GetPtrByName("localHead", true);
+            Vector3f pos = GetEntPosFromPtr(localPtr);
+            Vector3f ang = GetEntAngleFromPtr(localPtr);
+
+            // Eventually this'll be for the networked avatar, but for now we'll use the local's own specs.
             LuaUtils.WriteCoordsToScript(scriptPath, pos, ang);
 
             Console.WriteLine("pos " + pos + "             ");

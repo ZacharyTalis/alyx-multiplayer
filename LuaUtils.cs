@@ -1,16 +1,14 @@
 ﻿using LiveSplit.ComponentUtil;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 
 namespace alyx_multiplayer
 {
     class LuaUtils
     {
-        private const string scriptName = "\\networking_io.lua";
-        private const string avatarEntityName = "moveEnt";
+        private const string scriptName = "\\move_avatar.lua";
+        private const string avatarEntityName = "avatar";
+
+        // Account for the fact that the origin of info_player_start is below the tracked head, not at it. This value is in Hammer Units.
+        private const int zOffset = 24;
 
         /// <summary>
         /// Write a Lua script for moving the avatar to a specific spot.
@@ -22,8 +20,15 @@ namespace alyx_multiplayer
         {
             if (scriptPath.EndsWith("\\")) scriptPath.TrimEnd();
 
-            System.IO.File.WriteAllText(scriptPath + scriptName, "Entities:FindByName(nil, \"" + avatarEntityName + "\")):SetOrigin(Vector(" + pos.X + "," + pos.Y + "," + pos.Z + "));\n" +
-                "Entities:FindByName(nil, \"" + avatarEntityName + "\")):SetAngles(" + ang.X + "," + ang.Y + "," + ang.Z + ")");
+            try
+            {
+                System.IO.File.WriteAllText(scriptPath + scriptName, "Entities:FindByName(nil, \"" + avatarEntityName + "\"):SetOrigin(Vector(" + pos.X + "," + pos.Y + "," + (pos.Z + zOffset) + "));\n" +
+                "Entities:FindByName(nil, \"" + avatarEntityName + "\"):SetAngles(" + ang.X + "," + ang.Y + "," + ang.Z + ")");
+            } catch
+            {
+                // That's fine, the file is being accessed by HL:A right now. Would normally throw System.IO.IOException.
+            }
+            
         }
     }
 }
