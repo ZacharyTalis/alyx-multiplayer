@@ -5,3 +5,14 @@ C:\Users\Zachary\Desktop\Atom\alyx-multiplayer\obj\x64\Debug\alyx-multiplayer.cs
 C:\Users\Zachary\Desktop\Atom\alyx-multiplayer\obj\x64\Debug\alyx-multiplayer.csproj.CoreCompileInputs.cache
 C:\Users\Zachary\Desktop\Atom\alyx-multiplayer\obj\x64\Debug\alyx-multiplayer.exe
 C:\Users\Zachary\Desktop\Atom\alyx-multiplayer\obj\x64\Debug\alyx-multiplayer.pdb
+D:\Custom Media\Code\Repos\alyx-multiplayer\bin\x64\Debug\alyx-multiplayer.exe.config
+D:\Custom Media\Code\Repos\alyx-multiplayer\bin\x64\Debug\alyx-multiplayer.exe
+D:\Custom Media\Code\Repos\alyx-multiplayer\bin\x64\Debug\alyx-multiplayer.pdb
+D:\Custom Media\Code\Repos\alyx-multiplayer\obj\x64\Debug\alyx-multiplayer.csprojAssemblyReference.cache
+D:\Custom Media\Code\Repos\alyx-multiplayer\obj\x64\Debug\alyx-multiplayer.csproj.GenerateResource.cache
+D:\Custom Media\Code\Repos\alyx-multiplayer\obj\x64\Debug\alyx-multiplayer.csproj.CoreCompileInputs.cache
+D:\Custom Media\Code\Repos\alyx-multiplayer\obj\x64\Debug\alyx-multiplayer.exe
+D:\Custom Media\Code\Repos\alyx-multiplayer\obj\x64\Debug\alyx-multiplayer.pdb
+D:\Custom Media\Code\Repos\alyx-multiplayer\obj\x64\Debug\alyx_multiplayer.UI.resources
+D:\Custom Media\Code\Repos\alyx-multiplayer\obj\x64\Debug\alyx_multiplayer.Info.resources
+D:\Custom Media\Code\Repos\alyx-multiplayer\obj\x64\Debug\alyx_multiplayer.Properties.Resources.resources

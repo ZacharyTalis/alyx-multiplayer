@@ -2,7 +2,9 @@
 using System;
 using System.Diagnostics;
 using System.Linq;
+using System.Runtime.InteropServices;
 using System.Threading;
+using System.Windows.Forms;
 
 namespace alyx_multiplayer
 {
@@ -20,37 +22,130 @@ namespace alyx_multiplayer
         private const int ENT_INFO_SIZE = 120;
         private const int TICK_MS = 20;
 
+        private static UI ui;
+        private static RichTextBox textBoxLog;
+        public static bool isInfoOpen = false;
+
+        private static bool isConsoleEnabled = false;
+        [DllImport("kernel32.dll")]
+        private static extern IntPtr GetConsoleWindow();
+        [DllImport("user32.dll")]
+        private static extern void ShowWindow(IntPtr one, int two);
+        const int CONSOLE_HIDE = 0;
+        const int CONSOLE_SHOW = 5;
+
         private const string scriptPath = @"C:\Program Files (x86)\Steam\steamapps\common\Half-Life Alyx\game\hlvr_addons\lua_testbed\scripts\vscripts";
 
         /// <summary>
-        /// Main method. Run init, then update continuously.
+        /// Main method. Establish the events thread, then run the UI.
         /// </summary>
         /// <param name="args">Command-line arguments.</param>
+        [STAThread]
         public static void Main(string[] args)
         {
+            ConfigureConsole(isConsoleEnabled);
 
-            bool isGameRunning = false;
-            while (!isGameRunning)
+            Application.SetCompatibleTextRenderingDefault(false);
+            Application.EnableVisualStyles();
+            ui = new UI();
+            Thread eventsThread = new Thread(EventsThread.Begin);
+            eventsThread.Start();
+            Application.Run(ui);
+        }
+
+        /// <summary>
+        /// Show or hide the console window.
+        /// </summary>
+        /// <param name="showWindow">If true, show the window. Else, hide the window.</param>
+        private static void ConfigureConsole(bool showConsole)
+        {
+            var handle = GetConsoleWindow();
+
+            if (showConsole) ShowWindow(handle, CONSOLE_SHOW);
+            else ShowWindow(handle, CONSOLE_HIDE);
+
+        }
+
+        public static void ToggleConsole()
+        {
+            isConsoleEnabled = !isConsoleEnabled;
+            ConfigureConsole(isConsoleEnabled);
+        }
+        /// <summary>
+        /// We can run our events while the UI is also running.
+        /// </summary>
+        private class EventsThread {
+            /// <summary>
+            /// Run init, then update continuously.
+            /// </summary>
+            public static void Begin()
             {
-                try {
-                    game = Process.GetProcessesByName("hlvr")[0];
-                    isGameRunning = true;
-                }
-                catch (IndexOutOfRangeException) {
-                    Console.WriteLine("[MAIN] Game not running! Checking again in five seconds.");
-                    Thread.Sleep(5000);
-                }
-            } Console.Clear();
+                FindUIControls();
 
-            Init();
+                bool isGameRunning = false;
+                while (!isGameRunning)
+                {
+                    try
+                    {
+                        game = Process.GetProcessesByName("hlvr")[0];
+                        isGameRunning = true;
+                    }
+                    catch (IndexOutOfRangeException)
+                    {
+                        Log("[MAIN] Game not running! Checking again in five seconds.");
+                        Thread.Sleep(5000);
+                    }
+                }
+                Console.Clear();
 
-            Console.SetCursorPosition(0, 10);
-            while (true)
-            {
-                Update();
-                Thread.Sleep(TICK_MS);
-                Console.SetCursorPosition(0,10);
+                Init();
+
+                Console.SetCursorPosition(0, 10);
+                while (true)
+                {
+                    Update();
+                    Thread.Sleep(TICK_MS);
+                    Console.SetCursorPosition(0, 10);
+                }
             }
+        }
+
+        /// <summary>
+        /// 
+        /// </summary>
+        public class InfoThread
+        {
+            /// <summary>
+            /// 
+            /// </summary>
+            public static void ShowInfo()
+            {
+                Application.Run(new Info());
+            }
+        }
+
+        /// <summary>
+        /// Find and define all the controls from the UI.
+        /// </summary>
+        private static void FindUIControls()
+        {
+            textBoxLog = ui.Controls.Find("textBoxLog", true).FirstOrDefault() as RichTextBox;
+        }
+
+        /// <summary>
+        /// Output text to the UI log.
+        /// </summary>
+        /// <param name="text">The text to output.</param>
+        delegate void CallbackLog(string text);
+        private static void Log(String text)
+        {
+            if (textBoxLog.InvokeRequired)
+            {
+                Console.WriteLine(text);
+                CallbackLog callbackLog = new CallbackLog(Log);
+                textBoxLog.Invoke(callbackLog, new object[] { text });
+            }
+            else textBoxLog.Text = text;
         }
 
         /// <summary>
@@ -80,7 +175,7 @@ namespace alyx_multiplayer
         {
             Action<string, IntPtr> SigReport = (name, ptr) =>
             {
-                Console.WriteLine("[INIT] " + name + (ptr == IntPtr.Zero ? " WAS NOT FOUND" : " is 0x" + ptr.ToString("X")));
+                Log("[INIT] " + name + (ptr == IntPtr.Zero ? " WAS NOT FOUND" : " is 0x" + ptr.ToString("X")));
             };
 
             SigScanTarget _entListSig = new SigScanTarget(6,
@@ -101,7 +196,7 @@ namespace alyx_multiplayer
             ProcessModuleWow64Safe engine = modules.FirstOrDefault(x => x.ModuleName.ToLower() == "engine2.dll");
             while (server == null || engine == null)
             {
-                Console.WriteLine("[INIT] Modules aren't yet loaded! Waiting 1 second until next try");
+                Log("[INIT] Modules aren't yet loaded! Waiting 1 second until next try");
                 Thread.Sleep(1000);
             }
             var serverScanner = new SignatureScanner(game, server.BaseAddress, server.ModuleMemorySize);
@@ -110,7 +205,7 @@ namespace alyx_multiplayer
             _entListPtr = serverScanner.Scan(_entListSig); SigReport("entity list", _entListPtr);
             _gamePathPtr = engineScanner.Scan(_gamePathSig); SigReport("game path / map name", _gamePathPtr);
 
-            Console.WriteLine("gamepath " + game.ReadString(_gamePathPtr, 255) + "             ");
+            Log("gamepath " + game.ReadString(_gamePathPtr, 255) + "             ");
 
             _mapName = new StringWatcher(_mapNamePtr, 255);
             _watchers.Add(_mapName);
@@ -165,7 +260,7 @@ namespace alyx_multiplayer
                     if (GetNameFromPtr(entPtr, isTargetName) == name)
                     {
                         prof.Stop();
-                        Console.WriteLine("[ENTFINDING] Successfully found " + name + "'s pointer after " + prof.ElapsedMilliseconds * 0.001f + " seconds, index #" + i);
+                        Log("[ENTFINDING] Successfully found " + name + "'s pointer after " + prof.ElapsedMilliseconds * 0.001f + " seconds, index #" + i);
                         return entPtr;
                     }
                     else continue;
@@ -173,7 +268,7 @@ namespace alyx_multiplayer
             }
 
             prof.Stop();
-            Console.WriteLine("[ENTFINDING] Can't find " + name + "'s pointer! Time spent: " + prof.ElapsedMilliseconds * 0.001f + " seconds");
+            Log("[ENTFINDING] Can't find " + name + "'s pointer! Time spent: " + prof.ElapsedMilliseconds * 0.001f + " seconds");
             return IntPtr.Zero;
         }
 
