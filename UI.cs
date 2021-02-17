@@ -1,12 +1,5 @@
 ﻿using System;
-using System.Collections.Generic;
-using System.ComponentModel;
-using System.Data;
-using System.Drawing;
-using System.Linq;
-using System.Text;
 using System.Threading;
-using System.Threading.Tasks;
 using System.Windows.Forms;
 
 namespace alyx_multiplayer
@@ -18,52 +11,52 @@ namespace alyx_multiplayer
             InitializeComponent();
         }
 
+        /// <summary>
+        /// Executed when the UI form loads.
+        /// </summary>
+        /// <param name="sender"></param>
+        /// <param name="e"></param>
         private void form_Load(object sender, EventArgs e)
         {
 
         }
 
-        private void splitContainer1_Panel1_Paint(object sender, PaintEventArgs e)
+        /// <summary>
+        /// Terminate all threads when form closed.
+        /// </summary>
+        /// <param name="sender"></param>
+        /// <param name="e"></param>
+        private void UI_FormClosed(object sender, FormClosedEventArgs e)
         {
-
+            Environment.Exit(Environment.ExitCode);
         }
 
-        private void label1_Click(object sender, EventArgs e)
+        /// <summary>
+        /// Copy IP when labelIP is clicked.
+        /// </summary>
+        /// <param name="sender"></param>
+        /// <param name="e"></param>
+        private void labelIP_Click(object sender, EventArgs e)
         {
-
+            Clipboard.SetText(labelIP.Text);
         }
 
-        private void tempToolStripMenuItem_Click(object sender, EventArgs e)
-        {
-
-        }
-
-        private void menuStrip1_ItemClicked(object sender, ToolStripItemClickedEventArgs e)
-        {
-
-        }
-
-        private void toolStripStatusLabel1_Click(object sender, EventArgs e)
-        {
-
-        }
-
-        private void splitContainer1_Panel2_Paint(object sender, PaintEventArgs e)
-        {
-
-        }
-
-        private void logTextBox_TextChanged(object sender, EventArgs e)
-        {
-
-        }
-
-        private void toggleConsoleToolStripMenuItem_Click(object sender, EventArgs e)
+        /// <summary>
+        /// Toggle console visibility.
+        /// </summary>
+        /// <param name="sender"></param>
+        /// <param name="e"></param>
+        private void toolStripMenuItemConsole_Click(object sender, EventArgs e)
         {
             Core.ToggleConsole();
         }
 
-        private void infoToolStripMenuItem_Click(object sender, EventArgs e)
+        /// <summary>
+        /// Open the Info form.
+        /// </summary>
+        /// <param name="sender"></param>
+        /// <param name="e"></param>
+        private void toolStripMenuItemInfo_Click(object sender, EventArgs e)
         {
             if (!Core.isInfoOpen)
             {
@@ -73,9 +66,46 @@ namespace alyx_multiplayer
             }
         }
 
-        private void UI_FormClosed(object sender, FormClosedEventArgs e)
+        /// <summary>
+        /// Tooltip functionality for labelIP.
+        /// </summary>
+        /// <param name="sender"></param>
+        /// <param name="e"></param>
+        private void labelIP_MouseHover(object sender, EventArgs e)
         {
-            Environment.Exit(Environment.ExitCode);
+            toolTipIP.Show("Click to copy IP!", labelIP.Owner);
+        }
+
+        /// <summary>
+        /// Submit the script path (by pressing either buttonPath or the return key).
+        /// </summary>
+        /// <param name="sender"></param>
+        /// <param name="e"></param>
+        private void buttonPath_Click(object sender, EventArgs e)
+        {
+            String path = textBoxPath.Text;
+            if (path.Length <= 0 || path.Equals(Core.scriptPath))
+            {
+                // do nothing
+            } else
+            {
+                Core.scriptPath = @path;
+                Core.Log("Script path set to \"" + path + "\"", false);
+            }
+        }
+
+        /// <summary>
+        /// Call buttonPath_Click() when return key pressed inside textBoxPath.
+        /// </summary>
+        /// <param name="sender"></param>
+        /// <param name="e"></param>
+        private void textBoxPath_KeyPress(object sender, KeyPressEventArgs e)
+        {
+            if (e.KeyChar == (char)Keys.Return)
+            {
+                buttonPath_Click(sender, e);
+                e.Handled = true;
+            }
         }
     }
 }

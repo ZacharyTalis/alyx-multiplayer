@@ -2,6 +2,7 @@
 using System;
 using System.Diagnostics;
 using System.Linq;
+using System.Net;
 using System.Runtime.InteropServices;
 using System.Threading;
 using System.Windows.Forms;
@@ -24,6 +25,7 @@ namespace alyx_multiplayer
 
         private static UI ui;
         private static RichTextBox textBoxLog;
+        private static ToolStripStatusLabel labelIP;
         public static bool isInfoOpen = false;
 
         private static bool isConsoleEnabled = false;
@@ -34,7 +36,10 @@ namespace alyx_multiplayer
         const int CONSOLE_HIDE = 0;
         const int CONSOLE_SHOW = 5;
 
-        private const string scriptPath = @"C:\Program Files (x86)\Steam\steamapps\common\Half-Life Alyx\game\hlvr_addons\lua_testbed\scripts\vscripts";
+        private static bool hasFoundPtr = false;
+
+        private const string defaultScriptPath = @"C:\Program Files (x86)\Steam\steamapps\common\Half-Life Alyx\game\hlvr_addons\lua_testbed\scripts\vscripts";
+        public static string scriptPath;
 
         /// <summary>
         /// Main method. Establish the events thread, then run the UI.
@@ -48,8 +53,11 @@ namespace alyx_multiplayer
             Application.SetCompatibleTextRenderingDefault(false);
             Application.EnableVisualStyles();
             ui = new UI();
+
+            scriptPath = defaultScriptPath;
             Thread eventsThread = new Thread(EventsThread.Begin);
             eventsThread.Start();
+
             Application.Run(ui);
         }
 
@@ -81,6 +89,7 @@ namespace alyx_multiplayer
             public static void Begin()
             {
                 FindUIControls();
+                DisplayIP();
 
                 bool isGameRunning = false;
                 while (!isGameRunning)
@@ -130,22 +139,46 @@ namespace alyx_multiplayer
         private static void FindUIControls()
         {
             textBoxLog = ui.Controls.Find("textBoxLog", true).FirstOrDefault() as RichTextBox;
+            StatusStrip statusStrip = ui.Controls.Find("statusStrip", true).FirstOrDefault() as StatusStrip;
+            labelIP = statusStrip.Items.Find("labelIP", true).FirstOrDefault() as ToolStripStatusLabel;
         }
 
         /// <summary>
         /// Output text to the UI log.
         /// </summary>
         /// <param name="text">The text to output.</param>
-        delegate void CallbackLog(string text);
-        private static void Log(String text)
+        delegate void CallbackLog(string text, bool writeToConsole = true);
+        public static void Log(String text, bool writeToConsole = true)
         {
             if (textBoxLog.InvokeRequired)
             {
-                Console.WriteLine(text);
                 CallbackLog callbackLog = new CallbackLog(Log);
-                textBoxLog.Invoke(callbackLog, new object[] { text });
+                textBoxLog.Invoke(callbackLog, new object[] { text, writeToConsole });
             }
-            else textBoxLog.Text = text;
+            else
+            {
+                if (writeToConsole) Console.WriteLine(text);
+                if (textBoxLog.Text.Equals("")) textBoxLog.Text = text;
+                else textBoxLog.Text = textBoxLog.Text + "\n" + text;
+            }
+        }
+
+        delegate void CallbackDisplayIP();
+        private static void DisplayIP()
+        {
+            String ip = "Not found!";
+
+            try
+            {
+                ip = new WebClient().DownloadString("https://api.ipify.org");
+            } catch
+            {
+                Console.WriteLine("Error in IP fetch!");
+                ip = "Error in IP fetch! Are you connected to the internet?";
+            }
+
+            Console.WriteLine("[DISPLAYIP] Client public IP is " + ip);
+            labelIP.Text = ip;
         }
 
         /// <summary>
@@ -173,9 +206,11 @@ namespace alyx_multiplayer
         /// </summary>
         private static void Init()
         {
+            if (scriptPath.Equals(defaultScriptPath)) Log("Starting with default script path: \"" + scriptPath + "\"", false);
+
             Action<string, IntPtr> SigReport = (name, ptr) =>
             {
-                Log("[INIT] " + name + (ptr == IntPtr.Zero ? " WAS NOT FOUND" : " is 0x" + ptr.ToString("X")));
+                Console.WriteLine("[INIT] " + name + (ptr == IntPtr.Zero ? " WAS NOT FOUND" : " is 0x" + ptr.ToString("X")));
             };
 
             SigScanTarget _entListSig = new SigScanTarget(6,
@@ -196,7 +231,7 @@ namespace alyx_multiplayer
             ProcessModuleWow64Safe engine = modules.FirstOrDefault(x => x.ModuleName.ToLower() == "engine2.dll");
             while (server == null || engine == null)
             {
-                Log("[INIT] Modules aren't yet loaded! Waiting 1 second until next try");
+                Console.WriteLine("[INIT] Modules aren't yet loaded! Waiting 1 second until next try");
                 Thread.Sleep(1000);
             }
             var serverScanner = new SignatureScanner(game, server.BaseAddress, server.ModuleMemorySize);
@@ -205,7 +240,7 @@ namespace alyx_multiplayer
             _entListPtr = serverScanner.Scan(_entListSig); SigReport("entity list", _entListPtr);
             _gamePathPtr = engineScanner.Scan(_gamePathSig); SigReport("game path / map name", _gamePathPtr);
 
-            Log("gamepath " + game.ReadString(_gamePathPtr, 255) + "             ");
+            Console.WriteLine("gamepath " + game.ReadString(_gamePathPtr, 255) + "             ");
 
             _mapName = new StringWatcher(_mapNamePtr, 255);
             _watchers.Add(_mapName);
@@ -260,7 +295,12 @@ namespace alyx_multiplayer
                     if (GetNameFromPtr(entPtr, isTargetName) == name)
                     {
                         prof.Stop();
-                        Log("[ENTFINDING] Successfully found " + name + "'s pointer after " + prof.ElapsedMilliseconds * 0.001f + " seconds, index #" + i);
+                        if (!hasFoundPtr)
+                        {
+                            hasFoundPtr = true;
+                            Log("Found " + name + " pointer!", false);
+                        }
+                        Console.WriteLine("[ENTFINDING] Successfully found " + name + "'s pointer after " + prof.ElapsedMilliseconds * 0.001f + " seconds, index #" + i);
                         return entPtr;
                     }
                     else continue;
@@ -268,7 +308,11 @@ namespace alyx_multiplayer
             }
 
             prof.Stop();
-            Log("[ENTFINDING] Can't find " + name + "'s pointer! Time spent: " + prof.ElapsedMilliseconds * 0.001f + " seconds");
+            if (hasFoundPtr)
+            {
+                hasFoundPtr = false;
+                Log("Lost track of " + name + " pointer!", false);
+            } Console.WriteLine("[ENTFINDING] Can't find " + name + "'s pointer! Time spent: " + prof.ElapsedMilliseconds * 0.001f + " seconds");
             return IntPtr.Zero;
         }
 

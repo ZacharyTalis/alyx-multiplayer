@@ -29,37 +29,61 @@ namespace alyx_multiplayer
         /// </summary>
         private void InitializeComponent()
         {
+            this.components = new System.ComponentModel.Container();
+            System.Windows.Forms.ToolStripStatusLabel labelHeader;
             System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(UI));
             this.splitContainer = new System.Windows.Forms.SplitContainer();
             this.panel3 = new System.Windows.Forms.Panel();
             this.textBoxLog = new System.Windows.Forms.RichTextBox();
             this.panel1 = new System.Windows.Forms.Panel();
             this.labelLog = new System.Windows.Forms.Label();
+            this.panel4 = new System.Windows.Forms.Panel();
+            this.panel6 = new System.Windows.Forms.Panel();
+            this.labelPeer = new System.Windows.Forms.Label();
+            this.textBoxPeer = new System.Windows.Forms.TextBox();
+            this.buttonPeer = new System.Windows.Forms.Button();
+            this.panel5 = new System.Windows.Forms.Panel();
+            this.labelPath = new System.Windows.Forms.Label();
+            this.textBoxPath = new System.Windows.Forms.TextBox();
+            this.buttonPath = new System.Windows.Forms.Button();
             this.panel2 = new System.Windows.Forms.Panel();
             this.labelOptions = new System.Windows.Forms.Label();
-            this.button1 = new System.Windows.Forms.Button();
             this.menuStrip = new System.Windows.Forms.MenuStrip();
             this.tempToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
-            this.infoToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
-            this.statusStrip1 = new System.Windows.Forms.StatusStrip();
+            this.toolStripMenuItemConsole = new System.Windows.Forms.ToolStripMenuItem();
+            this.toolStripMenuItemInfo = new System.Windows.Forms.ToolStripMenuItem();
+            this.statusStrip = new System.Windows.Forms.StatusStrip();
             this.labelVersionNumber = new System.Windows.Forms.ToolStripStatusLabel();
-            this.toggleConsoleToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
-            this.panel4 = new System.Windows.Forms.Panel();
+            this.labelIP = new System.Windows.Forms.ToolStripStatusLabel();
+            this.toolTipIP = new System.Windows.Forms.ToolTip(this.components);
+            labelHeader = new System.Windows.Forms.ToolStripStatusLabel();
             ((System.ComponentModel.ISupportInitialize)(this.splitContainer)).BeginInit();
             this.splitContainer.Panel1.SuspendLayout();
             this.splitContainer.Panel2.SuspendLayout();
             this.splitContainer.SuspendLayout();
             this.panel3.SuspendLayout();
             this.panel1.SuspendLayout();
+            this.panel4.SuspendLayout();
+            this.panel6.SuspendLayout();
+            this.panel5.SuspendLayout();
             this.panel2.SuspendLayout();
             this.menuStrip.SuspendLayout();
-            this.statusStrip1.SuspendLayout();
-            this.panel4.SuspendLayout();
+            this.statusStrip.SuspendLayout();
             this.SuspendLayout();
+            // 
+            // labelHeader
+            // 
+            labelHeader.BorderSides = System.Windows.Forms.ToolStripStatusLabelBorderSides.Left;
+            labelHeader.Margin = new System.Windows.Forms.Padding(3, 3, 0, 2);
+            labelHeader.Name = "labelHeader";
+            labelHeader.Size = new System.Drawing.Size(30, 19);
+            labelHeader.Text = "  IP:";
             // 
             // splitContainer
             // 
-            this.splitContainer.Dock = System.Windows.Forms.DockStyle.Fill;
+            this.splitContainer.Anchor = ((System.Windows.Forms.AnchorStyles)((((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom) 
+            | System.Windows.Forms.AnchorStyles.Left) 
+            | System.Windows.Forms.AnchorStyles.Right)));
             this.splitContainer.Location = new System.Drawing.Point(0, 24);
             this.splitContainer.Margin = new System.Windows.Forms.Padding(0);
             this.splitContainer.Name = "splitContainer";
@@ -68,14 +92,12 @@ namespace alyx_multiplayer
             // 
             this.splitContainer.Panel1.Controls.Add(this.panel3);
             this.splitContainer.Panel1.Controls.Add(this.panel1);
-            this.splitContainer.Panel1.Paint += new System.Windows.Forms.PaintEventHandler(this.splitContainer1_Panel1_Paint);
             // 
             // splitContainer.Panel2
             // 
             this.splitContainer.Panel2.Controls.Add(this.panel4);
             this.splitContainer.Panel2.Controls.Add(this.panel2);
-            this.splitContainer.Panel2.Paint += new System.Windows.Forms.PaintEventHandler(this.splitContainer1_Panel2_Paint);
-            this.splitContainer.Size = new System.Drawing.Size(800, 426);
+            this.splitContainer.Size = new System.Drawing.Size(800, 400);
             this.splitContainer.SplitterDistance = 265;
             this.splitContainer.TabIndex = 1;
             // 
@@ -84,8 +106,9 @@ namespace alyx_multiplayer
             this.panel3.Controls.Add(this.textBoxLog);
             this.panel3.Dock = System.Windows.Forms.DockStyle.Fill;
             this.panel3.Location = new System.Drawing.Point(0, 13);
+            this.panel3.Margin = new System.Windows.Forms.Padding(0, 0, 0, 20);
             this.panel3.Name = "panel3";
-            this.panel3.Size = new System.Drawing.Size(265, 413);
+            this.panel3.Size = new System.Drawing.Size(265, 387);
             this.panel3.TabIndex = 3;
             // 
             // textBoxLog
@@ -98,11 +121,10 @@ namespace alyx_multiplayer
             this.textBoxLog.Margin = new System.Windows.Forms.Padding(0);
             this.textBoxLog.Name = "textBoxLog";
             this.textBoxLog.ReadOnly = true;
-            this.textBoxLog.ScrollBars = System.Windows.Forms.RichTextBoxScrollBars.Horizontal;
-            this.textBoxLog.Size = new System.Drawing.Size(265, 413);
+            this.textBoxLog.ScrollBars = System.Windows.Forms.RichTextBoxScrollBars.Vertical;
+            this.textBoxLog.Size = new System.Drawing.Size(265, 387);
             this.textBoxLog.TabIndex = 1;
             this.textBoxLog.Text = "";
-            this.textBoxLog.TextChanged += new System.EventHandler(this.logTextBox_TextChanged);
             // 
             // panel1
             // 
@@ -121,7 +143,100 @@ namespace alyx_multiplayer
             this.labelLog.Size = new System.Drawing.Size(25, 13);
             this.labelLog.TabIndex = 0;
             this.labelLog.Text = "Log";
-            this.labelLog.Click += new System.EventHandler(this.label1_Click);
+            // 
+            // panel4
+            // 
+            this.panel4.AutoScroll = true;
+            this.panel4.Controls.Add(this.panel6);
+            this.panel4.Controls.Add(this.panel5);
+            this.panel4.Dock = System.Windows.Forms.DockStyle.Fill;
+            this.panel4.Location = new System.Drawing.Point(0, 13);
+            this.panel4.Margin = new System.Windows.Forms.Padding(0);
+            this.panel4.Name = "panel4";
+            this.panel4.Size = new System.Drawing.Size(531, 387);
+            this.panel4.TabIndex = 4;
+            // 
+            // panel6
+            // 
+            this.panel6.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Left) 
+            | System.Windows.Forms.AnchorStyles.Right)));
+            this.panel6.Controls.Add(this.labelPeer);
+            this.panel6.Controls.Add(this.textBoxPeer);
+            this.panel6.Controls.Add(this.buttonPeer);
+            this.panel6.Location = new System.Drawing.Point(0, 34);
+            this.panel6.Margin = new System.Windows.Forms.Padding(0);
+            this.panel6.Name = "panel6";
+            this.panel6.Size = new System.Drawing.Size(531, 26);
+            this.panel6.TabIndex = 3;
+            // 
+            // labelPeer
+            // 
+            this.labelPeer.AutoSize = true;
+            this.labelPeer.Location = new System.Drawing.Point(2, 6);
+            this.labelPeer.Name = "labelPeer";
+            this.labelPeer.Size = new System.Drawing.Size(45, 13);
+            this.labelPeer.TabIndex = 2;
+            this.labelPeer.Text = "Peer IP:";
+            // 
+            // textBoxPeer
+            // 
+            this.textBoxPeer.Location = new System.Drawing.Point(108, 3);
+            this.textBoxPeer.Name = "textBoxPeer";
+            this.textBoxPeer.Size = new System.Drawing.Size(295, 20);
+            this.textBoxPeer.TabIndex = 2;
+            // 
+            // buttonPeer
+            // 
+            this.buttonPeer.Location = new System.Drawing.Point(409, 1);
+            this.buttonPeer.MaximumSize = new System.Drawing.Size(75, 23);
+            this.buttonPeer.MinimumSize = new System.Drawing.Size(75, 23);
+            this.buttonPeer.Name = "buttonPeer";
+            this.buttonPeer.Size = new System.Drawing.Size(75, 23);
+            this.buttonPeer.TabIndex = 3;
+            this.buttonPeer.Text = "Submit";
+            this.buttonPeer.UseVisualStyleBackColor = true;
+            // 
+            // panel5
+            // 
+            this.panel5.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Left) 
+            | System.Windows.Forms.AnchorStyles.Right)));
+            this.panel5.Controls.Add(this.labelPath);
+            this.panel5.Controls.Add(this.textBoxPath);
+            this.panel5.Controls.Add(this.buttonPath);
+            this.panel5.Location = new System.Drawing.Point(0, 7);
+            this.panel5.Margin = new System.Windows.Forms.Padding(0);
+            this.panel5.Name = "panel5";
+            this.panel5.Size = new System.Drawing.Size(531, 26);
+            this.panel5.TabIndex = 1;
+            // 
+            // labelPath
+            // 
+            this.labelPath.AutoSize = true;
+            this.labelPath.Location = new System.Drawing.Point(2, 6);
+            this.labelPath.Name = "labelPath";
+            this.labelPath.Size = new System.Drawing.Size(103, 13);
+            this.labelPath.TabIndex = 2;
+            this.labelPath.Text = "Folder path of script:";
+            // 
+            // textBoxPath
+            // 
+            this.textBoxPath.Location = new System.Drawing.Point(108, 3);
+            this.textBoxPath.Name = "textBoxPath";
+            this.textBoxPath.Size = new System.Drawing.Size(295, 20);
+            this.textBoxPath.TabIndex = 0;
+            this.textBoxPath.KeyPress += new System.Windows.Forms.KeyPressEventHandler(this.textBoxPath_KeyPress);
+            // 
+            // buttonPath
+            // 
+            this.buttonPath.Location = new System.Drawing.Point(409, 1);
+            this.buttonPath.MaximumSize = new System.Drawing.Size(75, 23);
+            this.buttonPath.MinimumSize = new System.Drawing.Size(75, 23);
+            this.buttonPath.Name = "buttonPath";
+            this.buttonPath.Size = new System.Drawing.Size(75, 23);
+            this.buttonPath.TabIndex = 1;
+            this.buttonPath.Text = "Submit";
+            this.buttonPath.UseVisualStyleBackColor = true;
+            this.buttonPath.Click += new System.EventHandler(this.buttonPath_Click);
             // 
             // panel2
             // 
@@ -135,22 +250,11 @@ namespace alyx_multiplayer
             // labelOptions
             // 
             this.labelOptions.AutoSize = true;
-            this.labelOptions.Location = new System.Drawing.Point(4, 0);
+            this.labelOptions.Location = new System.Drawing.Point(2, 0);
             this.labelOptions.Name = "labelOptions";
             this.labelOptions.Size = new System.Drawing.Size(43, 13);
             this.labelOptions.TabIndex = 1;
             this.labelOptions.Text = "Options";
-            // 
-            // button1
-            // 
-            this.button1.Location = new System.Drawing.Point(7, 18);
-            this.button1.MaximumSize = new System.Drawing.Size(75, 23);
-            this.button1.MinimumSize = new System.Drawing.Size(75, 23);
-            this.button1.Name = "button1";
-            this.button1.Size = new System.Drawing.Size(75, 23);
-            this.button1.TabIndex = 0;
-            this.button1.Text = "I do nothing!";
-            this.button1.UseVisualStyleBackColor = true;
             // 
             // menuStrip
             // 
@@ -161,65 +265,63 @@ namespace alyx_multiplayer
             this.menuStrip.Size = new System.Drawing.Size(800, 24);
             this.menuStrip.TabIndex = 2;
             this.menuStrip.Text = "menuStrip";
-            this.menuStrip.ItemClicked += new System.Windows.Forms.ToolStripItemClickedEventHandler(this.menuStrip1_ItemClicked);
             // 
             // tempToolStripMenuItem
             // 
             this.tempToolStripMenuItem.DropDownItems.AddRange(new System.Windows.Forms.ToolStripItem[] {
-            this.toggleConsoleToolStripMenuItem,
-            this.infoToolStripMenuItem});
+            this.toolStripMenuItemConsole,
+            this.toolStripMenuItemInfo});
             this.tempToolStripMenuItem.Name = "tempToolStripMenuItem";
             this.tempToolStripMenuItem.Size = new System.Drawing.Size(37, 20);
             this.tempToolStripMenuItem.Text = "File";
-            this.tempToolStripMenuItem.Click += new System.EventHandler(this.tempToolStripMenuItem_Click);
             // 
-            // infoToolStripMenuItem
+            // toolStripMenuItemConsole
             // 
-            this.infoToolStripMenuItem.Name = "infoToolStripMenuItem";
-            this.infoToolStripMenuItem.Size = new System.Drawing.Size(180, 22);
-            this.infoToolStripMenuItem.Text = "Info";
-            this.infoToolStripMenuItem.Click += new System.EventHandler(this.infoToolStripMenuItem_Click);
+            this.toolStripMenuItemConsole.Name = "toolStripMenuItemConsole";
+            this.toolStripMenuItemConsole.Size = new System.Drawing.Size(179, 22);
+            this.toolStripMenuItemConsole.Text = "Show/Hide Console";
+            this.toolStripMenuItemConsole.Click += new System.EventHandler(this.toolStripMenuItemConsole_Click);
             // 
-            // statusStrip1
+            // toolStripMenuItemInfo
             // 
-            this.statusStrip1.Items.AddRange(new System.Windows.Forms.ToolStripItem[] {
-            this.labelVersionNumber});
-            this.statusStrip1.Location = new System.Drawing.Point(0, 428);
-            this.statusStrip1.Name = "statusStrip1";
-            this.statusStrip1.Size = new System.Drawing.Size(800, 22);
-            this.statusStrip1.TabIndex = 3;
-            this.statusStrip1.Text = "statusStrip1";
+            this.toolStripMenuItemInfo.Name = "toolStripMenuItemInfo";
+            this.toolStripMenuItemInfo.Size = new System.Drawing.Size(179, 22);
+            this.toolStripMenuItemInfo.Text = "Info";
+            this.toolStripMenuItemInfo.Click += new System.EventHandler(this.toolStripMenuItemInfo_Click);
+            // 
+            // statusStrip
+            // 
+            this.statusStrip.Items.AddRange(new System.Windows.Forms.ToolStripItem[] {
+            this.labelVersionNumber,
+            labelHeader,
+            this.labelIP});
+            this.statusStrip.Location = new System.Drawing.Point(0, 426);
+            this.statusStrip.Name = "statusStrip";
+            this.statusStrip.Size = new System.Drawing.Size(800, 24);
+            this.statusStrip.TabIndex = 3;
+            this.statusStrip.Text = "statusStrip";
             // 
             // labelVersionNumber
             // 
+            this.labelVersionNumber.Margin = new System.Windows.Forms.Padding(0, 3, 3, 2);
             this.labelVersionNumber.Name = "labelVersionNumber";
-            this.labelVersionNumber.Size = new System.Drawing.Size(28, 17);
+            this.labelVersionNumber.Size = new System.Drawing.Size(28, 19);
             this.labelVersionNumber.Text = "v1.0";
-            this.labelVersionNumber.Click += new System.EventHandler(this.toolStripStatusLabel1_Click);
             // 
-            // toggleConsoleToolStripMenuItem
+            // labelIP
             // 
-            this.toggleConsoleToolStripMenuItem.Name = "toggleConsoleToolStripMenuItem";
-            this.toggleConsoleToolStripMenuItem.Size = new System.Drawing.Size(180, 22);
-            this.toggleConsoleToolStripMenuItem.Text = "Show/Hide Console";
-            this.toggleConsoleToolStripMenuItem.Click += new System.EventHandler(this.toggleConsoleToolStripMenuItem_Click);
-            // 
-            // panel4
-            // 
-            this.panel4.AutoScroll = true;
-            this.panel4.Controls.Add(this.button1);
-            this.panel4.Dock = System.Windows.Forms.DockStyle.Fill;
-            this.panel4.Location = new System.Drawing.Point(0, 13);
-            this.panel4.Name = "panel4";
-            this.panel4.Size = new System.Drawing.Size(531, 413);
-            this.panel4.TabIndex = 4;
+            this.labelIP.Name = "labelIP";
+            this.labelIP.Size = new System.Drawing.Size(73, 19);
+            this.labelIP.Text = "Not fetched!";
+            this.labelIP.Click += new System.EventHandler(this.labelIP_Click);
+            this.labelIP.MouseHover += new System.EventHandler(this.labelIP_MouseHover);
             // 
             // UI
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.ClientSize = new System.Drawing.Size(800, 450);
-            this.Controls.Add(this.statusStrip1);
+            this.Controls.Add(this.statusStrip);
             this.Controls.Add(this.splitContainer);
             this.Controls.Add(this.menuStrip);
             this.Icon = ((System.Drawing.Icon)(resources.GetObject("$this.Icon")));
@@ -235,13 +337,17 @@ namespace alyx_multiplayer
             this.panel3.ResumeLayout(false);
             this.panel1.ResumeLayout(false);
             this.panel1.PerformLayout();
+            this.panel4.ResumeLayout(false);
+            this.panel6.ResumeLayout(false);
+            this.panel6.PerformLayout();
+            this.panel5.ResumeLayout(false);
+            this.panel5.PerformLayout();
             this.panel2.ResumeLayout(false);
             this.panel2.PerformLayout();
             this.menuStrip.ResumeLayout(false);
             this.menuStrip.PerformLayout();
-            this.statusStrip1.ResumeLayout(false);
-            this.statusStrip1.PerformLayout();
-            this.panel4.ResumeLayout(false);
+            this.statusStrip.ResumeLayout(false);
+            this.statusStrip.PerformLayout();
             this.ResumeLayout(false);
             this.PerformLayout();
 
@@ -251,18 +357,27 @@ namespace alyx_multiplayer
 
         private System.Windows.Forms.SplitContainer splitContainer;
         private System.Windows.Forms.Label labelLog;
-        private System.Windows.Forms.Button button1;
+        private System.Windows.Forms.Button buttonPath;
         private System.Windows.Forms.MenuStrip menuStrip;
         private System.Windows.Forms.ToolStripMenuItem tempToolStripMenuItem;
-        private System.Windows.Forms.ToolStripMenuItem infoToolStripMenuItem;
-        private System.Windows.Forms.StatusStrip statusStrip1;
+        private System.Windows.Forms.ToolStripMenuItem toolStripMenuItemInfo;
+        private System.Windows.Forms.StatusStrip statusStrip;
         private System.Windows.Forms.ToolStripStatusLabel labelVersionNumber;
         private System.Windows.Forms.RichTextBox textBoxLog;
         private System.Windows.Forms.Label labelOptions;
         private System.Windows.Forms.Panel panel2;
         private System.Windows.Forms.Panel panel1;
         private System.Windows.Forms.Panel panel3;
-        private System.Windows.Forms.ToolStripMenuItem toggleConsoleToolStripMenuItem;
+        private System.Windows.Forms.ToolStripMenuItem toolStripMenuItemConsole;
         private System.Windows.Forms.Panel panel4;
+        private System.Windows.Forms.Panel panel5;
+        private System.Windows.Forms.TextBox textBoxPath;
+        private System.Windows.Forms.Label labelPath;
+        private System.Windows.Forms.Panel panel6;
+        private System.Windows.Forms.Label labelPeer;
+        private System.Windows.Forms.TextBox textBoxPeer;
+        private System.Windows.Forms.Button buttonPeer;
+        private System.Windows.Forms.ToolStripStatusLabel labelIP;
+        private System.Windows.Forms.ToolTip toolTipIP;
     }
 }

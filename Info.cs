@@ -31,5 +31,20 @@ namespace alyx_multiplayer
         {
             Core.isInfoOpen = false;
         }
+
+        private void Info_Load(object sender, EventArgs e)
+        {
+
+        }
+
+        private void pictureBox1_Click(object sender, EventArgs e)
+        {
+
+        }
+
+        private void button1_Click(object sender, EventArgs e)
+        {
+            System.Diagnostics.Process.Start("https://github.com/ZacharyTalis/alyx-multiplayer");
+        }
     }
 }
