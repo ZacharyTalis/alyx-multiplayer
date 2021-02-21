@@ -1,5 +1,4 @@
 ﻿using LiveSplit.ComponentUtil;
-using System.Collections.Generic;
 
 namespace alyx_multiplayer
 {
