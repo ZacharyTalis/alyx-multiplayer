@@ -56,6 +56,7 @@ namespace alyx_multiplayer
             this.labelVersionNumber = new System.Windows.Forms.ToolStripStatusLabel();
             this.labelIP = new System.Windows.Forms.ToolStripStatusLabel();
             this.toolTipIP = new System.Windows.Forms.ToolTip(this.components);
+            this.buttonEntSearch = new System.Windows.Forms.Button();
             labelHeader = new System.Windows.Forms.ToolStripStatusLabel();
             ((System.ComponentModel.ISupportInitialize)(this.splitContainer)).BeginInit();
             this.splitContainer.Panel1.SuspendLayout();
@@ -147,6 +148,7 @@ namespace alyx_multiplayer
             // panel4
             // 
             this.panel4.AutoScroll = true;
+            this.panel4.Controls.Add(this.buttonEntSearch);
             this.panel4.Controls.Add(this.panel6);
             this.panel4.Controls.Add(this.panel5);
             this.panel4.Dock = System.Windows.Forms.DockStyle.Fill;
@@ -316,6 +318,18 @@ namespace alyx_multiplayer
             this.labelIP.Click += new System.EventHandler(this.labelIP_Click);
             this.labelIP.MouseHover += new System.EventHandler(this.labelIP_MouseHover);
             // 
+            // buttonEntSearch
+            // 
+            this.buttonEntSearch.Location = new System.Drawing.Point(374, 63);
+            this.buttonEntSearch.MaximumSize = new System.Drawing.Size(110, 23);
+            this.buttonEntSearch.MinimumSize = new System.Drawing.Size(110, 23);
+            this.buttonEntSearch.Name = "buttonEntSearch";
+            this.buttonEntSearch.Size = new System.Drawing.Size(110, 23);
+            this.buttonEntSearch.TabIndex = 4;
+            this.buttonEntSearch.Text = "Restart Ent Search";
+            this.buttonEntSearch.UseVisualStyleBackColor = true;
+            this.buttonEntSearch.Click += new System.EventHandler(this.buttonEntSearch_Click);
+            // 
             // UI
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
@@ -379,5 +393,6 @@ namespace alyx_multiplayer
         private System.Windows.Forms.Button buttonPeer;
         private System.Windows.Forms.ToolStripStatusLabel labelIP;
         private System.Windows.Forms.ToolTip toolTipIP;
+        private System.Windows.Forms.Button buttonEntSearch;
     }
 }

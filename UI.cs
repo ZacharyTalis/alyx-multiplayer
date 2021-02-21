@@ -107,5 +107,10 @@ namespace alyx_multiplayer
                 e.Handled = true;
             }
         }
+
+        private void buttonEntSearch_Click(object sender, EventArgs e)
+        {
+            Core.entPrefixIndex = 1;
+        }
     }
 }

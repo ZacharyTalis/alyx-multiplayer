@@ -40,6 +40,9 @@ namespace alyx_multiplayer
 
         private const string defaultScriptPath = @"C:\Program Files (x86)\Steam\steamapps\common\Half-Life Alyx\game\hlvr_addons\lua_testbed\scripts\vscripts";
         public static string scriptPath;
+        private static string entPrefix = "ex1d_";
+        public static int entPrefixIndex = 1;
+        private static string cachedMapName = "";
 
         /// <summary>
         /// Main method. Establish the events thread, then run the UI.
@@ -207,7 +210,7 @@ namespace alyx_multiplayer
         private static void Init()
         {
             if (scriptPath.Equals(defaultScriptPath)) Log("Starting with default script path: \"" + scriptPath + "\"", false);
-
+            
             Action<string, IntPtr> SigReport = (name, ptr) =>
             {
                 Console.WriteLine("[INIT] " + name + (ptr == IntPtr.Zero ? " WAS NOT FOUND" : " is 0x" + ptr.ToString("X")));
@@ -283,8 +286,17 @@ namespace alyx_multiplayer
         /// <param name="name">The entity name.</param>
         /// <param name="isTargetName">If true, the name parameter is the entity's class name. Otherwise, it's the entity's actual name.</param>
         /// <returns></returns>
-        private static IntPtr GetPtrByName(string name, bool isTargetName = false)
+        private static IntPtr GetPtrByName(string entNameNoPrefix, bool isTargetName = false)
         {
+            // Refresh entPrefix, if need be
+            if (!_mapName.Current.Equals(cachedMapName))
+            {
+                entPrefix = FindEntPrefix(entNameNoPrefix, isTargetName);
+                cachedMapName = _mapName.Current;
+            }
+
+            string name = entPrefix + entNameNoPrefix;
+
             var prof = Stopwatch.StartNew();
             // 2838: theorectically the index can go all the way up to 32768 but it never does even on the biggest of maps
             for (int i = 0; i <= 20000; i++)
@@ -339,6 +351,53 @@ namespace alyx_multiplayer
         }
 
         /// <summary>
+        /// Search for the entity prefix that works for this map.
+        /// </summary>
+        /// <param name="entNameNoPrefix">The entity's name without a prefix.</param>
+        /// <param name="isTargetName">If true, the name parameter is the entity's class name. Otherwise, it's the entity's actual name.</param>
+        /// <returns></returns>
+        private static string FindEntPrefix(string entNameNoPrefix, bool isTargetName = false)
+        {
+            string testEntPrefix = entPrefix;
+            entPrefixIndex = 1;
+            int indexCap = 100; // Will the player ever load more than 100 maps?
+
+            Log("Finding new ent prefix...", false);
+
+            bool stillSearching = true;
+            while (stillSearching)
+            {
+                Log("Testing " + testEntPrefix, false);
+                string name = testEntPrefix + entNameNoPrefix;
+
+                for (int i = 0; i <= 20000; i++)
+                {
+                    IntPtr entPtr = GetEntPtrFromIndex(i);
+                    if (entPtr != IntPtr.Zero)
+                    {
+                        if (GetNameFromPtr(entPtr, isTargetName) == name)
+                        {
+                            if (!hasFoundPtr)
+                            {
+                                hasFoundPtr = true;
+                                Log("Found " + name + " pointer!", false);
+                            }
+                            stillSearching = false;
+                        }
+                        else continue;
+                    }
+                }
+                if (stillSearching)
+                {
+                    entPrefixIndex++;
+                    if (entPrefixIndex >= indexCap) entPrefixIndex = 1;
+                    testEntPrefix = "ex" + entPrefixIndex + "d_";
+                }
+            }
+            return testEntPrefix;
+        }
+
+        /// <summary>
         /// Update the console with current position, angles, and mapname.
         /// </summary>
         private static void Update()
@@ -354,12 +413,11 @@ namespace alyx_multiplayer
             Vector3f ang = GetEntAngleFromPtr(localPtr);
 
             // Eventually this'll be for the networked avatar, but for now we'll use the local's own specs.
-            LuaUtils.WriteCoordsToScript(scriptPath, pos, ang);
+            LuaUtils.WriteCoordsToScript(scriptPath, entPrefix, pos, ang);
 
             Console.WriteLine("pos " + pos + "             ");
             Console.WriteLine("ang " + ang + "             ");
             Console.WriteLine("map " + _mapName.Current + "             ");
         }
-        
     }
 }
