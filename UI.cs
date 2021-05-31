@@ -110,7 +110,7 @@ namespace alyx_multiplayer
 
         private void buttonEntSearch_Click(object sender, EventArgs e)
         {
-            Core.entPrefixIndex = 1;
+            Core.entPrefixIndex = 0;
         }
     }
 }

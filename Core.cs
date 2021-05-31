@@ -38,7 +38,7 @@ namespace alyx_multiplayer
 
         private static bool hasFoundPtr = false;
 
-        private const string defaultScriptPath = @"C:\Program Files (x86)\Steam\steamapps\common\Half-Life Alyx\game\hlvr_addons\lua_testbed\scripts\vscripts";
+        private const string defaultScriptPath = @"C:\Program Files (x86)\Steam\steamapps\common\Half-Life Alyx\game\hlvr_addons\alyx_multiplayer\scripts\vscripts";
         public static string scriptPath;
         private static string entPrefix = "ex1d_";
         public static int entPrefixIndex = 1;
