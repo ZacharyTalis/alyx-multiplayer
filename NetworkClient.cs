@@ -6,6 +6,9 @@ namespace alyx_multiplayer
 {
     class NetworkClient
     {
+        /// <summary>
+        /// Constructor which attempts to start the client.
+        /// </summary>
         private string ipPort;
         private bool shouldShowPeerError = true;
         public SimpleTcpClient client;
@@ -31,16 +34,23 @@ namespace alyx_multiplayer
             }
         }
 
+        /// <summary>
+        /// Kill the client. Brutal!
+        /// </summary>
         public void Dispose()
         {
             client.Dispose();
         }
 
-        public void Send(string msg)
+        /// <summary>
+        /// Send any coordinates using SuperSimpleTcp's nifty implementation.
+        /// </summary>
+        /// <param name="coords">The coordinates to send.</param>
+        public void Send(string coords)
         {
             try
             {
-                client.Send(msg);
+                client.Send(coords);
                 shouldShowPeerError = true;
             } catch
             {
@@ -52,16 +62,31 @@ namespace alyx_multiplayer
             }            
         }
 
+        /// <summary>
+        /// Client event for when we connect to the server.
+        /// </summary>
+        /// <param name="sender">The server we connected to.</param>
+        /// <param name="e">Event arguments.</param>
         static void Connected(object sender, EventArgs e)
         {
             Core.Log("*** Connected to peer", false);
         }
 
+        /// <summary>
+        /// Client event for when we disconnect from the server.
+        /// </summary>
+        /// <param name="sender">The server we disconnected from.</param>
+        /// <param name="e">Event arguments.</param>
         static void Disconnected(object sender, EventArgs e)
         {
             Core.Log("*** Disconnected from peer", false);
         }
 
+        /// <summary>
+        /// Client event for when we receive data from the server.
+        /// </summary>
+        /// <param name="sender">The server we received data from.</param>
+        /// <param name="e">Event arguments.</param>
         static void DataReceived(object sender, DataReceivedEventArgs e)
         {
             Core.Log("[" + e.IpPort + "] " + Encoding.UTF8.GetString(e.Data), false);

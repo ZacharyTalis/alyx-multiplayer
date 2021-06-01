@@ -168,6 +168,9 @@ namespace alyx_multiplayer
             }
         }
 
+        /// <summary>
+        /// Figure out and display the local public IP.
+        /// </summary>
         delegate void CallbackDisplayIP();
         private static void DisplayIP()
         {

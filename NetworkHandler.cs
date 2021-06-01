@@ -15,6 +15,10 @@ namespace alyx_multiplayer
         public NetworkServer server = new NetworkServer(serverIP + ":" + serverPort);
         public NetworkClient client = new NetworkClient(clientIP + ":" + clientPort);
 
+        /// <summary>
+        /// Restart the network with a new server port.
+        /// </summary>
+        /// <param name="newServerPort">The server port to implement.</param>
         public void ReconfigureServerPort(string newServerPort)
         {
             server.Dispose();
@@ -24,6 +28,10 @@ namespace alyx_multiplayer
             client = new NetworkClient(clientIP + ":" + clientPort);
         }
 
+        /// <summary>
+        /// Restart the network with a new client IP.
+        /// </summary>
+        /// <param name="newClientIP">The client IP to implement.</param>
         public void ReconfigureClientIP(string newClientIP)
         {
             client.Dispose();
@@ -31,6 +39,10 @@ namespace alyx_multiplayer
             client = new NetworkClient(clientIP + ":" + clientPort);
         }
 
+        /// <summary>
+        /// Restart the network with a new client port.
+        /// </summary>
+        /// <param name="newClientPort">The client port to implement.</param>
         public void ReconfigureClientPort(string newClientPort)
         {
             client.Dispose();
@@ -38,10 +50,18 @@ namespace alyx_multiplayer
             client = new NetworkClient(clientIP + ":" + clientPort);
         }
 
-        public void SendCoords(string msg) {
-            client.Send(msg);
+        /// <summary>
+        /// Pass coordinates to the client's Send() implementation.
+        /// </summary>
+        /// <param name="coords">The coordinates to send.</param>
+        public void SendCoords(string coords) {
+            client.Send(coords);
         }
 
+        /// <summary>
+        /// Get coordinates from the server's RetrieveCoords() implementation.
+        /// </summary>
+        /// <returns>The coordinates cached in the server.</returns>
         public string GetCoords()
         {
             return server.RetrieveCoords();
