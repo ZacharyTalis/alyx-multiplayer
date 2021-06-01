@@ -17,12 +17,7 @@ namespace alyx_multiplayer
             InitializeComponent();
         }
 
-        private void label1_Click(object sender, EventArgs e)
-        {
-            
-        }
-
-        private void label1_Click_1(object sender, EventArgs e)
+        private void Info_Load(object sender, EventArgs e)
         {
 
         }
@@ -31,20 +26,15 @@ namespace alyx_multiplayer
         {
             Core.isInfoOpen = false;
         }
-
-        private void Info_Load(object sender, EventArgs e)
-        {
-
-        }
-
-        private void pictureBox1_Click(object sender, EventArgs e)
-        {
-
-        }
-
-        private void button1_Click(object sender, EventArgs e)
+        
+        private void buttonSourceCode_Click(object sender, EventArgs e)
         {
             System.Diagnostics.Process.Start("https://github.com/ZacharyTalis/alyx-multiplayer");
+        }
+
+        private void buttonWebsite_Click(object sender, EventArgs e)
+        {
+            System.Diagnostics.Process.Start("https://alyx-multiplayer.com/");
         }
     }
 }
