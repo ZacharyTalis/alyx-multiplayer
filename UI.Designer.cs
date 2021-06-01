@@ -38,10 +38,19 @@ namespace alyx_multiplayer
             this.panel1 = new System.Windows.Forms.Panel();
             this.labelLog = new System.Windows.Forms.Label();
             this.panel4 = new System.Windows.Forms.Panel();
+            this.panel8 = new System.Windows.Forms.Panel();
+            this.label2 = new System.Windows.Forms.Label();
+            this.textBoxPeerPort = new System.Windows.Forms.TextBox();
+            this.buttonPeerPort = new System.Windows.Forms.Button();
+            this.panel7 = new System.Windows.Forms.Panel();
+            this.label1 = new System.Windows.Forms.Label();
+            this.textBoxPeerIP = new System.Windows.Forms.TextBox();
+            this.buttonPeerIP = new System.Windows.Forms.Button();
+            this.buttonEntSearch = new System.Windows.Forms.Button();
             this.panel6 = new System.Windows.Forms.Panel();
             this.labelPeer = new System.Windows.Forms.Label();
-            this.textBoxPeer = new System.Windows.Forms.TextBox();
-            this.buttonPeer = new System.Windows.Forms.Button();
+            this.textBoxLocalPort = new System.Windows.Forms.TextBox();
+            this.buttonLocalPort = new System.Windows.Forms.Button();
             this.panel5 = new System.Windows.Forms.Panel();
             this.labelPath = new System.Windows.Forms.Label();
             this.textBoxPath = new System.Windows.Forms.TextBox();
@@ -56,7 +65,6 @@ namespace alyx_multiplayer
             this.labelVersionNumber = new System.Windows.Forms.ToolStripStatusLabel();
             this.labelIP = new System.Windows.Forms.ToolStripStatusLabel();
             this.toolTipIP = new System.Windows.Forms.ToolTip(this.components);
-            this.buttonEntSearch = new System.Windows.Forms.Button();
             labelHeader = new System.Windows.Forms.ToolStripStatusLabel();
             ((System.ComponentModel.ISupportInitialize)(this.splitContainer)).BeginInit();
             this.splitContainer.Panel1.SuspendLayout();
@@ -65,6 +73,8 @@ namespace alyx_multiplayer
             this.panel3.SuspendLayout();
             this.panel1.SuspendLayout();
             this.panel4.SuspendLayout();
+            this.panel8.SuspendLayout();
+            this.panel7.SuspendLayout();
             this.panel6.SuspendLayout();
             this.panel5.SuspendLayout();
             this.panel2.SuspendLayout();
@@ -148,6 +158,8 @@ namespace alyx_multiplayer
             // panel4
             // 
             this.panel4.AutoScroll = true;
+            this.panel4.Controls.Add(this.panel8);
+            this.panel4.Controls.Add(this.panel7);
             this.panel4.Controls.Add(this.buttonEntSearch);
             this.panel4.Controls.Add(this.panel6);
             this.panel4.Controls.Add(this.panel5);
@@ -158,13 +170,111 @@ namespace alyx_multiplayer
             this.panel4.Size = new System.Drawing.Size(531, 387);
             this.panel4.TabIndex = 4;
             // 
+            // panel8
+            // 
+            this.panel8.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Left) 
+            | System.Windows.Forms.AnchorStyles.Right)));
+            this.panel8.Controls.Add(this.label2);
+            this.panel8.Controls.Add(this.textBoxPeerPort);
+            this.panel8.Controls.Add(this.buttonPeerPort);
+            this.panel8.Location = new System.Drawing.Point(0, 88);
+            this.panel8.Margin = new System.Windows.Forms.Padding(0);
+            this.panel8.Name = "panel8";
+            this.panel8.Size = new System.Drawing.Size(531, 26);
+            this.panel8.TabIndex = 5;
+            // 
+            // label2
+            // 
+            this.label2.AutoSize = true;
+            this.label2.Location = new System.Drawing.Point(2, 6);
+            this.label2.Name = "label2";
+            this.label2.Size = new System.Drawing.Size(53, 13);
+            this.label2.TabIndex = 2;
+            this.label2.Text = "Peer port:";
+            // 
+            // textBoxPeerPort
+            // 
+            this.textBoxPeerPort.Location = new System.Drawing.Point(108, 3);
+            this.textBoxPeerPort.Name = "textBoxPeerPort";
+            this.textBoxPeerPort.Size = new System.Drawing.Size(295, 20);
+            this.textBoxPeerPort.TabIndex = 2;
+            this.textBoxPeerPort.Text = "6655";
+            this.textBoxPeerPort.KeyPress += new System.Windows.Forms.KeyPressEventHandler(this.textBoxPeerPort_KeyPress);
+            // 
+            // buttonPeerPort
+            // 
+            this.buttonPeerPort.Location = new System.Drawing.Point(409, 1);
+            this.buttonPeerPort.MaximumSize = new System.Drawing.Size(75, 23);
+            this.buttonPeerPort.MinimumSize = new System.Drawing.Size(75, 23);
+            this.buttonPeerPort.Name = "buttonPeerPort";
+            this.buttonPeerPort.Size = new System.Drawing.Size(75, 23);
+            this.buttonPeerPort.TabIndex = 3;
+            this.buttonPeerPort.Text = "Submit";
+            this.buttonPeerPort.UseVisualStyleBackColor = true;
+            this.buttonPeerPort.Click += new System.EventHandler(this.buttonPeerPort_Click);
+            // 
+            // panel7
+            // 
+            this.panel7.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Left) 
+            | System.Windows.Forms.AnchorStyles.Right)));
+            this.panel7.Controls.Add(this.label1);
+            this.panel7.Controls.Add(this.textBoxPeerIP);
+            this.panel7.Controls.Add(this.buttonPeerIP);
+            this.panel7.Location = new System.Drawing.Point(0, 61);
+            this.panel7.Margin = new System.Windows.Forms.Padding(0);
+            this.panel7.Name = "panel7";
+            this.panel7.Size = new System.Drawing.Size(531, 26);
+            this.panel7.TabIndex = 4;
+            // 
+            // label1
+            // 
+            this.label1.AutoSize = true;
+            this.label1.Location = new System.Drawing.Point(2, 6);
+            this.label1.Name = "label1";
+            this.label1.Size = new System.Drawing.Size(45, 13);
+            this.label1.TabIndex = 2;
+            this.label1.Text = "Peer IP:";
+            // 
+            // textBoxPeerIP
+            // 
+            this.textBoxPeerIP.Location = new System.Drawing.Point(108, 3);
+            this.textBoxPeerIP.Name = "textBoxPeerIP";
+            this.textBoxPeerIP.Size = new System.Drawing.Size(295, 20);
+            this.textBoxPeerIP.TabIndex = 2;
+            this.textBoxPeerIP.Text = "127.0.0.1";
+            this.textBoxPeerIP.KeyPress += new System.Windows.Forms.KeyPressEventHandler(this.textBoxPeerIP_KeyPress);
+            // 
+            // buttonPeerIP
+            // 
+            this.buttonPeerIP.Location = new System.Drawing.Point(409, 1);
+            this.buttonPeerIP.MaximumSize = new System.Drawing.Size(75, 23);
+            this.buttonPeerIP.MinimumSize = new System.Drawing.Size(75, 23);
+            this.buttonPeerIP.Name = "buttonPeerIP";
+            this.buttonPeerIP.Size = new System.Drawing.Size(75, 23);
+            this.buttonPeerIP.TabIndex = 3;
+            this.buttonPeerIP.Text = "Submit";
+            this.buttonPeerIP.UseVisualStyleBackColor = true;
+            this.buttonPeerIP.Click += new System.EventHandler(this.buttonPeerIP_Click);
+            // 
+            // buttonEntSearch
+            // 
+            this.buttonEntSearch.Location = new System.Drawing.Point(374, 118);
+            this.buttonEntSearch.MaximumSize = new System.Drawing.Size(110, 23);
+            this.buttonEntSearch.MinimumSize = new System.Drawing.Size(110, 23);
+            this.buttonEntSearch.Name = "buttonEntSearch";
+            this.buttonEntSearch.Size = new System.Drawing.Size(110, 23);
+            this.buttonEntSearch.TabIndex = 4;
+            this.buttonEntSearch.Text = "Restart Ent Search";
+            this.buttonEntSearch.UseVisualStyleBackColor = true;
+            this.buttonEntSearch.Click += new System.EventHandler(this.buttonEntSearch_Click);
+            // 
             // panel6
             // 
             this.panel6.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Left) 
             | System.Windows.Forms.AnchorStyles.Right)));
             this.panel6.Controls.Add(this.labelPeer);
-            this.panel6.Controls.Add(this.textBoxPeer);
-            this.panel6.Controls.Add(this.buttonPeer);
+            this.panel6.Controls.Add(this.textBoxLocalPort);
+            this.panel6.Controls.Add(this.buttonLocalPort);
             this.panel6.Location = new System.Drawing.Point(0, 34);
             this.panel6.Margin = new System.Windows.Forms.Padding(0);
             this.panel6.Name = "panel6";
@@ -176,27 +286,30 @@ namespace alyx_multiplayer
             this.labelPeer.AutoSize = true;
             this.labelPeer.Location = new System.Drawing.Point(2, 6);
             this.labelPeer.Name = "labelPeer";
-            this.labelPeer.Size = new System.Drawing.Size(45, 13);
+            this.labelPeer.Size = new System.Drawing.Size(57, 13);
             this.labelPeer.TabIndex = 2;
-            this.labelPeer.Text = "Peer IP:";
+            this.labelPeer.Text = "Local port:";
             // 
-            // textBoxPeer
+            // textBoxLocalPort
             // 
-            this.textBoxPeer.Location = new System.Drawing.Point(108, 3);
-            this.textBoxPeer.Name = "textBoxPeer";
-            this.textBoxPeer.Size = new System.Drawing.Size(295, 20);
-            this.textBoxPeer.TabIndex = 2;
+            this.textBoxLocalPort.Location = new System.Drawing.Point(108, 3);
+            this.textBoxLocalPort.Name = "textBoxLocalPort";
+            this.textBoxLocalPort.Size = new System.Drawing.Size(295, 20);
+            this.textBoxLocalPort.TabIndex = 2;
+            this.textBoxLocalPort.Text = "6655";
+            this.textBoxLocalPort.KeyPress += new System.Windows.Forms.KeyPressEventHandler(this.textBoxLocalPort_KeyPress);
             // 
-            // buttonPeer
+            // buttonLocalPort
             // 
-            this.buttonPeer.Location = new System.Drawing.Point(409, 1);
-            this.buttonPeer.MaximumSize = new System.Drawing.Size(75, 23);
-            this.buttonPeer.MinimumSize = new System.Drawing.Size(75, 23);
-            this.buttonPeer.Name = "buttonPeer";
-            this.buttonPeer.Size = new System.Drawing.Size(75, 23);
-            this.buttonPeer.TabIndex = 3;
-            this.buttonPeer.Text = "Submit";
-            this.buttonPeer.UseVisualStyleBackColor = true;
+            this.buttonLocalPort.Location = new System.Drawing.Point(409, 1);
+            this.buttonLocalPort.MaximumSize = new System.Drawing.Size(75, 23);
+            this.buttonLocalPort.MinimumSize = new System.Drawing.Size(75, 23);
+            this.buttonLocalPort.Name = "buttonLocalPort";
+            this.buttonLocalPort.Size = new System.Drawing.Size(75, 23);
+            this.buttonLocalPort.TabIndex = 3;
+            this.buttonLocalPort.Text = "Submit";
+            this.buttonLocalPort.UseVisualStyleBackColor = true;
+            this.buttonLocalPort.Click += new System.EventHandler(this.buttonLocalPort_Click);
             // 
             // panel5
             // 
@@ -226,6 +339,8 @@ namespace alyx_multiplayer
             this.textBoxPath.Name = "textBoxPath";
             this.textBoxPath.Size = new System.Drawing.Size(295, 20);
             this.textBoxPath.TabIndex = 0;
+            this.textBoxPath.Text = "C:\\Program Files (x86)\\Steam\\steamapps\\common\\Half-Life Alyx\\game\\hlvr_addons\\aly" +
+    "x_multiplayer\\scripts\\vscripts";
             this.textBoxPath.KeyPress += new System.Windows.Forms.KeyPressEventHandler(this.textBoxPath_KeyPress);
             // 
             // buttonPath
@@ -318,18 +433,6 @@ namespace alyx_multiplayer
             this.labelIP.Click += new System.EventHandler(this.labelIP_Click);
             this.labelIP.MouseHover += new System.EventHandler(this.labelIP_MouseHover);
             // 
-            // buttonEntSearch
-            // 
-            this.buttonEntSearch.Location = new System.Drawing.Point(374, 63);
-            this.buttonEntSearch.MaximumSize = new System.Drawing.Size(110, 23);
-            this.buttonEntSearch.MinimumSize = new System.Drawing.Size(110, 23);
-            this.buttonEntSearch.Name = "buttonEntSearch";
-            this.buttonEntSearch.Size = new System.Drawing.Size(110, 23);
-            this.buttonEntSearch.TabIndex = 4;
-            this.buttonEntSearch.Text = "Restart Ent Search";
-            this.buttonEntSearch.UseVisualStyleBackColor = true;
-            this.buttonEntSearch.Click += new System.EventHandler(this.buttonEntSearch_Click);
-            // 
             // UI
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
@@ -352,6 +455,10 @@ namespace alyx_multiplayer
             this.panel1.ResumeLayout(false);
             this.panel1.PerformLayout();
             this.panel4.ResumeLayout(false);
+            this.panel8.ResumeLayout(false);
+            this.panel8.PerformLayout();
+            this.panel7.ResumeLayout(false);
+            this.panel7.PerformLayout();
             this.panel6.ResumeLayout(false);
             this.panel6.PerformLayout();
             this.panel5.ResumeLayout(false);
@@ -389,10 +496,18 @@ namespace alyx_multiplayer
         private System.Windows.Forms.Label labelPath;
         private System.Windows.Forms.Panel panel6;
         private System.Windows.Forms.Label labelPeer;
-        private System.Windows.Forms.TextBox textBoxPeer;
-        private System.Windows.Forms.Button buttonPeer;
+        private System.Windows.Forms.TextBox textBoxLocalPort;
+        private System.Windows.Forms.Button buttonLocalPort;
         private System.Windows.Forms.ToolStripStatusLabel labelIP;
         private System.Windows.Forms.ToolTip toolTipIP;
         private System.Windows.Forms.Button buttonEntSearch;
+        private System.Windows.Forms.Panel panel8;
+        private System.Windows.Forms.Label label2;
+        private System.Windows.Forms.TextBox textBoxPeerPort;
+        private System.Windows.Forms.Button buttonPeerPort;
+        private System.Windows.Forms.Panel panel7;
+        private System.Windows.Forms.Label label1;
+        private System.Windows.Forms.TextBox textBoxPeerIP;
+        private System.Windows.Forms.Button buttonPeerIP;
     }
 }

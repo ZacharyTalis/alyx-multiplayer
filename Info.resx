@@ -4089,6 +4089,7 @@
 • 2838 and Kube for refactoring this ASL script into a standalone program.
 • Kube's partner for some slick debugging.
 • All the LiveSplit repo contributors (most of this code comes from that repo's memory-watching tools).
+• The SuperSimpleTCP contributors and their excellent example code (which we also cribbed).
 • The TF2Maps, SourceRuns, and Speedrun Tool Development communities.</value>
   </data>
   <data name="$this.Icon" type="System.Drawing.Icon, System.Drawing" mimetype="application/x-microsoft.net.object.bytearray.base64">

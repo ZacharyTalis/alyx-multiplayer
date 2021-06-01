@@ -84,13 +84,13 @@ namespace alyx_multiplayer
         private void buttonPath_Click(object sender, EventArgs e)
         {
             String path = textBoxPath.Text;
-            if (path.Length <= 0 || path.Equals(Core.scriptPath))
+            if (path.Length <= 0)
             {
                 // do nothing
             } else
             {
                 Core.scriptPath = @path;
-                Core.Log("Script path set to \"" + path + "\"", false);
+                Core.Log("Set script path set to: \"" + path + "\"", false);
             }
         }
 
@@ -111,6 +111,75 @@ namespace alyx_multiplayer
         private void buttonEntSearch_Click(object sender, EventArgs e)
         {
             Core.entPrefixIndex = 0;
+        }
+
+        private void buttonLocalPort_Click(object sender, EventArgs e)
+        {
+            string newServerPort = textBoxLocalPort.Text;
+            if (newServerPort.Length <= 0)
+            {
+                // do nothing
+            }
+            else
+            {
+                Core.Log("Set local port to: " + newServerPort, false);
+                Core.networkHandler.ReconfigureServerPort(newServerPort);
+            }
+        }
+
+        private void textBoxLocalPort_KeyPress(object sender, KeyPressEventArgs e)
+        {
+            if (e.KeyChar == (char)Keys.Return)
+            {
+                buttonLocalPort_Click(sender, e);
+                e.Handled = true;
+            }
+        }
+
+        private void buttonPeerIP_Click(object sender, EventArgs e)
+        {
+            string newClientIP = textBoxPeerIP.Text;
+            if (newClientIP.Length <= 0)
+            {
+                // do nothing
+            }
+            else
+            {
+                Core.Log("Set client IP to: " + newClientIP, false);
+                Core.networkHandler.ReconfigureClientIP(newClientIP);
+            }
+        }
+
+        private void textBoxPeerIP_KeyPress(object sender, KeyPressEventArgs e)
+        {
+            if (e.KeyChar == (char)Keys.Return)
+            {
+                buttonPeerIP_Click(sender, e);
+                e.Handled = true;
+            }
+        }
+
+        private void buttonPeerPort_Click(object sender, EventArgs e)
+        {
+            string newClientPort = textBoxPeerPort.Text;
+            if (newClientPort.Length <= 0)
+            {
+                // do nothing
+            }
+            else
+            {
+                Core.Log("Set client port to: " + newClientPort, false);
+                Core.networkHandler.ReconfigureClientPort(newClientPort);
+            }
+        }
+
+        private void textBoxPeerPort_KeyPress(object sender, KeyPressEventArgs e)
+        {
+            if (e.KeyChar == (char)Keys.Return)
+            {
+                buttonPeerPort_Click(sender, e);
+                e.Handled = true;
+            }
         }
     }
 }

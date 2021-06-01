@@ -16,3 +16,6 @@ D:\Custom Media\Code\Repos\alyx-multiplayer\obj\x64\Debug\alyx-multiplayer.pdb
 D:\Custom Media\Code\Repos\alyx-multiplayer\obj\x64\Debug\alyx_multiplayer.UI.resources
 D:\Custom Media\Code\Repos\alyx-multiplayer\obj\x64\Debug\alyx_multiplayer.Info.resources
 D:\Custom Media\Code\Repos\alyx-multiplayer\obj\x64\Debug\alyx_multiplayer.Properties.Resources.resources
+D:\Custom Media\Code\Repos\alyx-multiplayer\bin\x64\Debug\SimpleTcp.dll
+D:\Custom Media\Code\Repos\alyx-multiplayer\bin\x64\Debug\SimpleTcp.xml
+D:\Custom Media\Code\Repos\alyx-multiplayer\obj\x64\Debug\alyx-multiplayer.csproj.CopyComplete

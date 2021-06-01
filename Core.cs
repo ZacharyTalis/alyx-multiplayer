@@ -20,6 +20,8 @@ namespace alyx_multiplayer
 
         private static MemoryWatcherList _watchers = new MemoryWatcherList();
 
+        public static NetworkHandler networkHandler = new NetworkHandler();
+
         private const int ENT_INFO_SIZE = 120;
         private const int TICK_MS = 20;
 
@@ -209,7 +211,7 @@ namespace alyx_multiplayer
         /// </summary>
         private static void Init()
         {
-            if (scriptPath.Equals(defaultScriptPath)) Log("Starting with default script path: \"" + scriptPath + "\"", false);
+            Log("Starting with default values", false);
             
             Action<string, IntPtr> SigReport = (name, ptr) =>
             {
@@ -409,14 +411,32 @@ namespace alyx_multiplayer
 
             // Now we're using an empty at the local's head!
             IntPtr localPtr = GetPtrByName("localHead", true);
-            Vector3f pos = GetEntPosFromPtr(localPtr);
-            Vector3f ang = GetEntAngleFromPtr(localPtr);
+            Vector3f localPos = GetEntPosFromPtr(localPtr);
+            Vector3f localAng = GetEntAngleFromPtr(localPtr);
 
-            // Eventually this'll be for the networked avatar, but for now we'll use the local's own specs.
-            LuaUtils.WriteCoordsToScript(scriptPath, entPrefix, pos, ang);
+            networkHandler.SendCoords(localPos.ToString() + "," + localAng.ToString() + " ");
 
-            Console.WriteLine("pos " + pos + "             ");
-            Console.WriteLine("ang " + ang + "             ");
+            string[] unparsedCoords;
+            try
+            {
+                unparsedCoords = networkHandler.GetCoords().Split(',');
+            } catch (NullReferenceException)
+            {
+                unparsedCoords = new string[] { "0 0 0", "0 0 0" };
+            }
+            
+            string[] unparsedPos = unparsedCoords[0].Split(' ');
+            string[] unparsedAng = unparsedCoords[1].Split(' ');
+            Vector3f networkPos = new Vector3f(float.Parse(unparsedPos[0]), float.Parse(unparsedPos[1]), float.Parse(unparsedPos[2]));
+            Vector3f networkAng = new Vector3f(float.Parse(unparsedAng[0]), float.Parse(unparsedAng[1]), float.Parse(unparsedAng[2]));
+
+            // Write networkPos and networkAng to the script we use to move the avatar
+            LuaUtils.WriteCoordsToScript(scriptPath, entPrefix, networkPos, networkAng);
+
+            Console.WriteLine("localPos " + localPos + "             ");
+            Console.WriteLine("localAng " + localAng + "             ");
+            Console.WriteLine("networkPos " + networkPos + "             ");
+            Console.WriteLine("networkAng " + networkAng + "             ");
             Console.WriteLine("map " + _mapName.Current + "             ");
         }
     }
