@@ -422,8 +422,8 @@ namespace alyx_multiplayer
             // 
             this.labelVersionNumber.Margin = new System.Windows.Forms.Padding(0, 3, 3, 2);
             this.labelVersionNumber.Name = "labelVersionNumber";
-            this.labelVersionNumber.Size = new System.Drawing.Size(28, 19);
-            this.labelVersionNumber.Text = "v1.0";
+            this.labelVersionNumber.Size = new System.Drawing.Size(37, 19);
+            this.labelVersionNumber.Text = "v1.0.1";
             // 
             // labelIP
             // 
