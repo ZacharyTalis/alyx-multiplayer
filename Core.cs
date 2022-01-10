@@ -430,8 +430,9 @@ namespace alyx_multiplayer
             
             string[] unparsedPos = unparsedCoords[0].Split(' ');
             string[] unparsedAng = unparsedCoords[1].Split(' ');
-            Vector3f networkPos = new Vector3f(float.Parse(unparsedPos[0]), float.Parse(unparsedPos[1]), float.Parse(unparsedPos[2]));
-            Vector3f networkAng = new Vector3f(float.Parse(unparsedAng[0]), float.Parse(unparsedAng[1]), float.Parse(unparsedAng[2]));
+            System.Globalization.CultureInfo invariantCulture = System.Globalization.CultureInfo.InvariantCulture;
+            Vector3f networkPos = new Vector3f(float.Parse(unparsedPos[0], invariantCulture), float.Parse(unparsedPos[1], invariantCulture), float.Parse(unparsedPos[2], invariantCulture));
+            Vector3f networkAng = new Vector3f(float.Parse(unparsedAng[0], invariantCulture), float.Parse(unparsedAng[1], invariantCulture), float.Parse(unparsedAng[2], invariantCulture));
 
             // Write networkPos and networkAng to the script we use to move the avatar
             LuaUtils.WriteCoordsToScript(scriptPath, entPrefix, networkPos, networkAng);

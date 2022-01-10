@@ -4,3 +4,4 @@
 *.exe
 *.pdb
 *.cache
+.vs

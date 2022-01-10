@@ -19,3 +19,17 @@ D:\Custom Media\Code\Repos\alyx-multiplayer\obj\x64\Debug\alyx_multiplayer.Prope
 D:\Custom Media\Code\Repos\alyx-multiplayer\bin\x64\Debug\SimpleTcp.dll
 D:\Custom Media\Code\Repos\alyx-multiplayer\bin\x64\Debug\SimpleTcp.xml
 D:\Custom Media\Code\Repos\alyx-multiplayer\obj\x64\Debug\alyx-multiplayer.csproj.CopyComplete
+C:\Users\Zachary\Desktop\alyx-multiplayer\bin\x64\Debug\alyx-multiplayer.exe.config
+C:\Users\Zachary\Desktop\alyx-multiplayer\bin\x64\Debug\alyx-multiplayer.exe
+C:\Users\Zachary\Desktop\alyx-multiplayer\bin\x64\Debug\alyx-multiplayer.pdb
+C:\Users\Zachary\Desktop\alyx-multiplayer\bin\x64\Debug\SimpleTcp.dll
+C:\Users\Zachary\Desktop\alyx-multiplayer\bin\x64\Debug\SimpleTcp.xml
+C:\Users\Zachary\Desktop\alyx-multiplayer\obj\x64\Debug\alyx-multiplayer.csproj.SuggestedBindingRedirects.cache
+C:\Users\Zachary\Desktop\alyx-multiplayer\obj\x64\Debug\alyx_multiplayer.Info.resources
+C:\Users\Zachary\Desktop\alyx-multiplayer\obj\x64\Debug\alyx_multiplayer.Properties.Resources.resources
+C:\Users\Zachary\Desktop\alyx-multiplayer\obj\x64\Debug\alyx_multiplayer.UI.resources
+C:\Users\Zachary\Desktop\alyx-multiplayer\obj\x64\Debug\alyx-multiplayer.csproj.GenerateResource.cache
+C:\Users\Zachary\Desktop\alyx-multiplayer\obj\x64\Debug\alyx-multiplayer.csproj.CoreCompileInputs.cache
+C:\Users\Zachary\Desktop\alyx-multiplayer\obj\x64\Debug\alyx-multiplayer.csproj.CopyComplete
+C:\Users\Zachary\Desktop\alyx-multiplayer\obj\x64\Debug\alyx-multiplayer.exe
+C:\Users\Zachary\Desktop\alyx-multiplayer\obj\x64\Debug\alyx-multiplayer.pdb

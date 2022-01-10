@@ -47,7 +47,7 @@ namespace alyx_multiplayer
             this.label1.Name = "label1";
             this.label1.Size = new System.Drawing.Size(202, 48);
             this.label1.TabIndex = 2;
-            this.label1.Text = "alyx-multiplayer\r\nv1.0";
+            this.label1.Text = "alyx-multiplayer\r\nv1.0.1";
             this.label1.TextAlign = System.Drawing.ContentAlignment.MiddleCenter;
             // 
             // pictureBox1
@@ -69,7 +69,7 @@ namespace alyx_multiplayer
             this.label2.Font = new System.Drawing.Font("Consolas", 9.75F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.label2.Location = new System.Drawing.Point(39, 321);
             this.label2.Name = "label2";
-            this.label2.Size = new System.Drawing.Size(728, 120);
+            this.label2.Size = new System.Drawing.Size(728, 135);
             this.label2.TabIndex = 3;
             this.label2.Text = resources.GetString("label2.Text");
             this.label2.TextAlign = System.Drawing.ContentAlignment.MiddleLeft;
@@ -100,7 +100,7 @@ namespace alyx_multiplayer
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
-            this.ClientSize = new System.Drawing.Size(800, 450);
+            this.ClientSize = new System.Drawing.Size(800, 480);
             this.Controls.Add(this.button2);
             this.Controls.Add(this.buttonSourceCode);
             this.Controls.Add(this.label2);

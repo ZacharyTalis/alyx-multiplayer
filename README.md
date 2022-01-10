@@ -9,6 +9,7 @@ A lotta folks made this possible, notably:
 - DerkO, Lyfeless, and 2838 for writing the original LiveSplit ASL script.
 - 2838 and Kube for refactoring this ASL script into a standalone program.
 - Kube's partner for some slick debugging.
+- illicit and fieldy for debugging a pesky float delimiter issue.
 - All the [LiveSplit](https://github.com/LiveSplit/LiveSplit) repo contributors (most of this code comes from that repo's memory-watching tools).
 - The [SuperSimpleTCP](https://github.com/jchristn/simpletcp) contributors and their excellent example code (which we also cribbed).
 - The TF2Maps, SourceRuns, and Speedrun Tool Development communities.
