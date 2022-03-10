@@ -417,7 +417,8 @@ namespace alyx_multiplayer
             Vector3f localPos = GetEntPosFromPtr(localPtr);
             Vector3f localAng = GetEntAngleFromPtr(localPtr);
 
-            networkHandler.SendCoords(localPos.ToString() + "," + localAng.ToString() + " ");
+            networkHandler.SendCoords(localPos.IX.ToString() + " " + localPos.IY.ToString() + " "+ localPos.IZ.ToString() + "," +
+                                      localAng.IX.ToString() + " " + localAng.IY.ToString() + " " + localAng.IZ.ToString() + " ");
 
             string[] unparsedCoords;
             try
