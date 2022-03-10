@@ -409,6 +409,7 @@ namespace alyx_multiplayer
         {
             _watchers.UpdateAll(game);
 
+            System.Globalization.CultureInfo invariantCulture = System.Globalization.CultureInfo.InvariantCulture;
             // Original code for local coords fetch
             // IntPtr localPtr = GetEntPtrFromIndex(1);
 
@@ -417,13 +418,13 @@ namespace alyx_multiplayer
             Vector3f localPos = GetEntPosFromPtr(localPtr);
             Vector3f localAng = GetEntAngleFromPtr(localPtr);
 
-            networkHandler.SendCoords(localPos.IX.ToString() + " " + localPos.IY.ToString() + " "+ localPos.IZ.ToString() + "," +
-                                      localAng.IX.ToString() + " " + localAng.IY.ToString() + " " + localAng.IZ.ToString() + " ");
+            networkHandler.SendCoords(localPos.X.ToString(invariantCulture) + " " + localPos.Y.ToString(invariantCulture) + " " + localPos.Z.ToString(invariantCulture) 
+                                      + "_" + localAng.X.ToString(invariantCulture) + " " + localAng.Y.ToString(invariantCulture) + " " + localAng.Z.ToString(invariantCulture) + " ");
 
             string[] unparsedCoords;
             try
             {
-                unparsedCoords = networkHandler.GetCoords().Split(',');
+                unparsedCoords = networkHandler.GetCoords().Split('_');
             } catch (NullReferenceException)
             {
                 unparsedCoords = new string[] { "0 0 0", "0 0 0" };
@@ -431,7 +432,7 @@ namespace alyx_multiplayer
             
             string[] unparsedPos = unparsedCoords[0].Split(' ');
             string[] unparsedAng = unparsedCoords[1].Split(' ');
-            System.Globalization.CultureInfo invariantCulture = System.Globalization.CultureInfo.InvariantCulture;
+
             Vector3f networkPos = new Vector3f(float.Parse(unparsedPos[0], invariantCulture), float.Parse(unparsedPos[1], invariantCulture), float.Parse(unparsedPos[2], invariantCulture));
             Vector3f networkAng = new Vector3f(float.Parse(unparsedAng[0], invariantCulture), float.Parse(unparsedAng[1], invariantCulture), float.Parse(unparsedAng[2], invariantCulture));
 
