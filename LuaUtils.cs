@@ -33,7 +33,7 @@ namespace alyx_multiplayer
                 string AngXstr = ang.X.ToString(invariantCulture);
                 string AngYstr = ang.Y.ToString(invariantCulture);
                 string AngZstr = ang.Z.ToString(invariantCulture);
-                string AngVectorStr = PosXstr + "," + PosYstr + "," + PosZstr;
+                string AngVectorStr = AngXstr + "," + AngYstr + "," + AngZstr;
 
                 System.IO.File.WriteAllText(scriptPath + avatarScriptName, "Entities:FindByName(nil, \"" + entPrefix + avatarEntityName + "\"):SetOrigin(Vector(" + PosVectorStr + "));\n" +
                 "Entities:FindByName(nil, \"" + entPrefix + avatarEntityName + "\"):SetAngles(" + AngVectorStr + ")" );
