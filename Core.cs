@@ -1,4 +1,4 @@
-﻿using LiveSplit.ComponentUtil;
+using LiveSplit.ComponentUtil;
 using System;
 using System.Diagnostics;
 using System.Linq;
@@ -417,7 +417,10 @@ namespace alyx_multiplayer
             Vector3f localPos = GetEntPosFromPtr(localPtr);
             Vector3f localAng = GetEntAngleFromPtr(localPtr);
 
-            networkHandler.SendCoords(localPos.ToString() + "," + localAng.ToString() + " ");
+            System.Globalization.CultureInfo invariantCulture = System.Globalization.CultureInfo.InvariantCulture;
+
+            networkHandler.SendCoords(localPos.X.ToString(invariantCulture) + " " + localPos.Y.ToString(invariantCulture) + " " + localPos.Z.ToString(invariantCulture) + "," +
+                                      localAng.X.ToString(invariantCulture) + " " + localAng.Y.ToString(invariantCulture) + " " + localAng.Z.ToString(invariantCulture) + " ");
 
             string[] unparsedCoords;
             try
@@ -430,7 +433,7 @@ namespace alyx_multiplayer
             
             string[] unparsedPos = unparsedCoords[0].Split(' ');
             string[] unparsedAng = unparsedCoords[1].Split(' ');
-            System.Globalization.CultureInfo invariantCulture = System.Globalization.CultureInfo.InvariantCulture;
+
             Vector3f networkPos = new Vector3f(float.Parse(unparsedPos[0], invariantCulture), float.Parse(unparsedPos[1], invariantCulture), float.Parse(unparsedPos[2], invariantCulture));
             Vector3f networkAng = new Vector3f(float.Parse(unparsedAng[0], invariantCulture), float.Parse(unparsedAng[1], invariantCulture), float.Parse(unparsedAng[2], invariantCulture));
 
